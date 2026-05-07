@@ -1,0 +1,2 @@
+https://geocoding-api.open-meteo.com/v1/search?name=Berlin&country=DE&count=1
+https://api.open-meteo.com/v1/forecast

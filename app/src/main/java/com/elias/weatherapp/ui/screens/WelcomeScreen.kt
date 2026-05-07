@@ -1,16 +1,32 @@
 package com.elias.weatherapp.ui.screens
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.elias.weatherapp.viewmodel.WeatherAppViewModel
 
 @Composable
 fun WelcomeScreen(
-    modifier: Modifier = Modifier,
-    onNavigateToHome: () -> Unit = {}
+    viewModel: WeatherAppViewModel = viewModel(),
+    onNavigateToHome: () -> Unit
 ) {
-    Text(
-        text = "Hi",
-        modifier = modifier
-    )
+
+    Column {
+
+        Button(onClick = {
+            viewModel.loadWeatherByCity("Berlin", "Germany")
+        }) {
+            Text("Get Weather")
+        }
+
+        val weather = viewModel.weather.value
+
+        weather?.let {
+            Text("Temp: ${it.temperature}")
+            Text("Humidity: ${it.humidity}")
+            Text("Wind: ${it.windSpeed}")
+        }
+    }
 }
