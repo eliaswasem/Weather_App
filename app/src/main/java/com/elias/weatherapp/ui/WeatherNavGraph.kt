@@ -1,12 +1,23 @@
 package com.elias.weatherapp.ui
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.elias.weatherapp.ui.screens.HomeScreen
 import com.elias.weatherapp.ui.screens.WelcomeScreen
+import com.elias.weatherapp.viewmodel.WeatherAppViewModel
 
 object Routes {
     const val WELCOME = "welcome"
@@ -17,29 +28,44 @@ object Routes {
 @Composable
 fun WeatherNavGraph(
     navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: WeatherAppViewModel = hiltViewModel()
 ) {
-    NavHost(
-        navController = navController,
-        startDestination = Routes.WELCOME,
-        modifier = modifier
-    ) {
-        composable(Routes.WELCOME) {
-            WelcomeScreen(
-                onNavigateToHome = {
-                    navController.navigate(Routes.HOME) {
-                        popUpTo(Routes.WELCOME) { inclusive = true }
+
+    var startRoute by remember { mutableStateOf<String?>(null) }
+
+    LaunchedEffect(Unit) {
+        val location = viewModel.getSavedLocation()
+        startRoute = if (location == null) Routes.WELCOME else Routes.HOME
+    }
+
+    if (startRoute == null) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            CircularProgressIndicator()
+        }
+    } else {
+        NavHost(
+            navController = navController,
+            startDestination = startRoute!!,
+            modifier = modifier
+        ) {
+            composable(Routes.WELCOME) {
+                WelcomeScreen(
+                    onNavigateToHome = {
+                        navController.navigate(Routes.HOME) {
+                            popUpTo(Routes.WELCOME) { inclusive = true }
+                        }
                     }
-                }
-            )
-        }
+                )
+            }
 
-        composable(Routes.HOME) {
-            HomeScreen()
-        }
+            composable(Routes.HOME) {
+                HomeScreen()
+            }
 
-        composable(Routes.SETTINGS) {
-            //SettingsScreen()
+            composable(Routes.SETTINGS) {
+                // SettingsScreen()
+            }
         }
     }
 }

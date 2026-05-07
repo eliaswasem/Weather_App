@@ -5,8 +5,8 @@ import com.elias.weatherapp.data.model.WeatherData
 
 fun WeatherApiResponse.toWeatherData(): WeatherData {
     return WeatherData(
-        temperature = current.temperature_2m,
-        humidity = current.relative_humidity_2m,
-        windSpeed = current.wind_speed_10m
+        temperature = this.current.temperature,
+        humidity = this.current.humidity,
+        windSpeed = this.current.windSpeed
     )
 }

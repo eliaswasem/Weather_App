@@ -1,59 +1,97 @@
 package com.elias.weatherapp.viewmodel
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elias.weatherapp.RetrofitClient
 import com.elias.weatherapp.data.SettingsSaveHandler
+import com.elias.weatherapp.data.model.LocationData
 import com.elias.weatherapp.data.model.WeatherData
 import com.elias.weatherapp.data.toWeatherData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class WeatherAppViewModel(
+@HiltViewModel
+class WeatherAppViewModel @Inject constructor(
     private val saveHandler: SettingsSaveHandler
-) : ViewModel() {
+) : ViewModel()  {
 
     private val _weather = MutableStateFlow<WeatherData?>(null)
     val weather = _weather.asStateFlow()
 
+    var isLoading by mutableStateOf(false)
+        private set
+
+    var errorMessage by mutableStateOf<String?>(null)
+        private set
+
+    var cityName by mutableStateOf<String?>(null)
+        private set
+
     fun loadWeather() {
         viewModelScope.launch {
-            val coords = saveHandler.getSavedLocation() ?: return@launch
+            isLoading = true
+            val coords = saveHandler.getSavedLocation()
 
-            val (lat, lon) = coords
-
-            val response = try {
-                RetrofitClient.weatherApi.getWeather(lat, lon)
-            } catch (e: Exception) {
-                null
+            if (coords != null) {
+                cityName = coords.name
+                try {
+                    val response = RetrofitClient.weatherApi.getWeather(coords.latitude, coords.longitude)
+                    _weather.value = response.toWeatherData()
+                } catch (e: Exception) {
+                    errorMessage = "Failed to load weather"
+                } finally {
+                    isLoading = false
+                }
             }
-
-            _weather.value = response?.toWeatherData()
         }
     }
 
-    fun saveLocation(lat: Double, lon: Double) {
+    fun getAndSaveLocationFromCoords(city: String, country: String, onSuccess: () -> Unit) {
+        if (city.isBlank()) {
+            errorMessage = "City cannot be empty"
+            return
+        }
+        if (country.isBlank()) {
+            errorMessage = "Country cannot be empty"
+            return
+        }
+
         viewModelScope.launch {
-            saveHandler.saveLocation(lat, lon)
+            try {
+                isLoading = true
+                errorMessage = null
+
+                val response = RetrofitClient.locationApi.getLocation(city, country, )
+                val location = response.results.firstOrNull()
+
+                if (location != null) {
+                    saveHandler.saveLocation(
+                        LocationData(
+                        latitude = location.latitude,
+                        longitude = location.longitude,
+                        name = location.name,
+                        country = location.country
+                        )
+                    )
+                    onSuccess()
+                } else {
+                    errorMessage = "Location not found. Check spelling."
+                }
+            } catch (e: Exception) {
+                errorMessage = "Network connection failed"
+            } finally {
+                isLoading = false
+            }
         }
     }
 
-    fun getAndSaveLocationFromCoords(city: String, country: String) {
-        viewModelScope.launch {
-
-            val response = try {
-                RetrofitClient.locationApi.getLocation(city, country)
-            } catch (e: Exception) {
-                null
-            }
-
-            val location = response?.results?.firstOrNull() ?: return@launch
-
-            saveHandler.saveLocation(
-                lat = location.latitude,
-                lon = location.longitude
-            )
-        }
+    suspend fun getSavedLocation(): LocationData? {
+        return saveHandler.getSavedLocation()
     }
 }

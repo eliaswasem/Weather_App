@@ -1,11 +1,13 @@
 package com.elias.weatherapp.data.model
 
+import com.google.gson.annotations.SerializedName
+
 data class WeatherApiResponse(
     val current: CurrentWeather
 )
 
 data class CurrentWeather(
-    val temperature_2m: Double,
-    val relative_humidity_2m: Double,
-    val wind_speed_10m: Double
+    @SerializedName("temperature_2m") val temperature: Double,
+    @SerializedName("relative_humidity_2m") val humidity: Int, // Neu
+    @SerializedName("wind_speed_10m") val windSpeed: Double    // Neu
 )

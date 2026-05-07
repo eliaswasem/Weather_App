@@ -8,7 +8,7 @@ interface LocationApi {
 
     @GET("search")
     suspend fun getLocation(
-        @Query("city") name: String,
+        @Query("name") name: String,
         @Query("country") country: String,
         @Query("count") count: Int = 1
     ): LocationApiResponse
