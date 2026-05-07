@@ -6,5 +6,7 @@ data class LocationApiResponse(
 
 data class LocationResult(
     val latitude: Double,
-    val longitude: Double
+    val longitude: Double,
+    val name: String,
+    val country: String? = null,
 )
