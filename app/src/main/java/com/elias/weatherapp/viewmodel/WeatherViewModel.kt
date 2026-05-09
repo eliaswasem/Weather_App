@@ -45,9 +45,15 @@ class WeatherAppViewModel @Inject constructor(
             if (coords != null) {
                 cityName = coords.name
                 try {
-                    val response = RetrofitClient.weatherApi.getWeather(coords.latitude, coords.longitude)
+                    errorMessage = null
+
+                    val response = RetrofitClient.weatherApi.getWeather(
+                        coords.latitude,
+                        coords.longitude
+                    )
                     _weather.value = response.toWeatherData()
                 } catch (e: Exception) {
+                    _weather.value = null
                     errorMessage = "Failed to load weather"
                 } finally {
                     isLoading = false
@@ -110,4 +116,9 @@ class WeatherAppViewModel @Inject constructor(
             saveHandler.saveTheme(newTheme)
         }
     }
+    fun retry() {
+        errorMessage = null
+        loadWeather()
+    }
+
 }
