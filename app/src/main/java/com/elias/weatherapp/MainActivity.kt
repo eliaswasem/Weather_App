@@ -6,9 +6,19 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.elias.weatherapp.ui.Routes
 import com.elias.weatherapp.ui.WeatherNavGraph
 import com.elias.weatherapp.ui.theme.WeatherAppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,15 +27,53 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         enableEdgeToEdge()
 
         setContent {
             WeatherAppTheme {
-
                 val navController = rememberNavController()
 
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val currentRoute = navBackStackEntry?.destination?.route
+
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    bottomBar = {
+                        if (currentRoute != Routes.WELCOME) {
+                            NavigationBar {
+                                NavigationBarItem(
+                                    selected = currentRoute == Routes.SETTINGS,
+                                    onClick = {
+                                        if (currentRoute != Routes.SETTINGS) {
+                                            navController.navigate(Routes.SETTINGS) {
+                                                launchSingleTop = true
+                                            }
+                                        }
+                                    },
+                                    icon = { Icon(Icons.Default.Settings, contentDescription = "Settings") },
+                                    label = { Text("Settings") }
+                                )
+                                NavigationBarItem(
+                                    selected = currentRoute == Routes.HOME,
+                                    onClick = {
+                                        if (currentRoute != Routes.HOME) {
+                                            navController.navigate(Routes.HOME) {
+                                                popUpTo(Routes.WELCOME) {
+                                                    inclusive = false
+                                                    saveState = true
+                                                }
+                                                launchSingleTop = true
+                                                restoreState = true
+                                            }
+                                        }
+                                    },
+                                    icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
+                                    label = { Text("Home") }
+                                )
+                            }
+                        }
+                    }
+                ) { innerPadding ->
                     WeatherNavGraph(
                         navController = navController,
                         modifier = Modifier.padding(innerPadding)

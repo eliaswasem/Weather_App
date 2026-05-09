@@ -16,6 +16,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.elias.weatherapp.ui.screens.HomeScreen
+import com.elias.weatherapp.ui.screens.SettingsScreen
 import com.elias.weatherapp.ui.screens.WelcomeScreen
 import com.elias.weatherapp.viewmodel.WeatherAppViewModel
 
@@ -64,7 +65,13 @@ fun WeatherNavGraph(
             }
 
             composable(Routes.SETTINGS) {
-                // SettingsScreen()
+                SettingsScreen(
+                    onNavigateToHome = {
+                        navController.navigate(Routes.HOME) {
+                            popUpTo(Routes.WELCOME) { inclusive = true}
+                        }
+                    }
+                )
             }
         }
     }
