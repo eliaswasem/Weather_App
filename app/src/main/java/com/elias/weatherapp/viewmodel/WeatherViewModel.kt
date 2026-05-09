@@ -77,16 +77,16 @@ class WeatherAppViewModel @Inject constructor(
                 isLoading = true
                 errorMessage = null
 
-                val response = RetrofitClient.locationApi.getLocation(city.trim(), country.trim() )
-                val location = response.results.firstOrNull()
+                val response = RetrofitClient.locationApi.getLocation(city.trim(), country.trim())
+                val location = response.results?.firstOrNull()
 
                 if (location != null) {
                     saveHandler.saveLocation(
                         LocationData(
-                        latitude = location.latitude,
-                        longitude = location.longitude,
-                        name = location.name,
-                        country = location.country
+                            latitude = location.latitude,
+                            longitude = location.longitude,
+                            name = location.name,
+                            country = location.country
                         )
                     )
                     onSuccess()
