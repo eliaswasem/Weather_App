@@ -105,6 +105,12 @@ class WeatherAppViewModel @Inject constructor(
         return saveHandler.getSavedLocation()
     }
 
+    fun deleteLocationAndReset() {
+        viewModelScope.launch {
+            saveHandler.clearLocation()
+            _weather.value = null
+        }
+    }
     val theme: StateFlow<AppTheme> = saveHandler.themeFlow
         .stateIn(
             scope = viewModelScope,

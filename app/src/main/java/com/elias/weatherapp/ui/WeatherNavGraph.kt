@@ -65,7 +65,13 @@ fun WeatherNavGraph(
             }
 
             composable(Routes.SETTINGS) {
-                SettingsScreen()
+                SettingsScreen(
+                    onLocationDeleted = {
+                        navController.navigate(Routes.WELCOME) {
+                            popUpTo(0) { inclusive = true}
+                        }
+                    }
+                )
             }
         }
     }

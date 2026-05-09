@@ -59,6 +59,15 @@ class SettingsSaveHandler @Inject constructor(
         } else null
     }
 
+    suspend fun clearLocation() {
+        dataStore.edit { preferences ->
+            preferences.remove(LAT_KEY)
+            preferences.remove(LON_KEY)
+            preferences.remove(NAME_KEY)
+            preferences.remove(COUNTRY_KEY)
+        }
+    }
+
     suspend fun saveTheme(theme: AppTheme) {
         dataStore.edit { preferences ->
             preferences[THEME_KEY] = theme.name
