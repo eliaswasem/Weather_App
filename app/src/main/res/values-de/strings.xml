@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Wetter App</string>
+    <string name="button_retry">Erneut versuchen</string>
+    <string name="text_current_temperature">Aktuelle Temperatur</string>
+    <string name="text_wind" translatable="false">Wind</string>
+    <string name="text_humidity">Luftfeuchtigkeit</string>
+    <string name="text_unknown_location">Unbekannter Ort</string>
+    <string name="error_no_weather_data">Keine Wetterdaten verfügbar.</string>
+    <string name="text_appearance">Darstellung</string>
+    <string name="button_delete_saved_location">Gespeicherten Ort löschen</string>
+    <string name="error_failed_load_weather">Wetter konnte nicht geladen werden</string>
+    <string name="error_city_empty">Stadt darf nicht leer sein.</string>
+    <string name="error_country_empty">Land darf nicht leer sein.</string>
+    <string name="error_location_not_found">Ort nicht gefunden. Schreibweise prüfen.</string>
+    <string name="error_network_connection_failed">Netzwerkverbindung fehlgeschlagen.</string>
+    <string name="label_settings">Einstellungen</string>
+    <string name="label_home">Startseite</string>
+    <string name="text_welcome">Willkommen bei der Wetter App</string>
+    <string name="label_country">Land</string>
+    <string name="button_continue">Weiter</string>
+    <string name="theme_light">Hell</string>
+    <string name="theme_system">System</string>
+    <string name="theme_dark">Dunkel</string>
+    <string name="text_reset">Dadurch wird die App auf den Startbildschirm zurückgesetzt.</string>
+    <string name="lang_english">Englisch</string>
+    <string name="lang_german">Deutsch</string>
+    <string name="label_app_theme">App-Design</string>
+    <string name="label_app_language">App-Sprache</string>
+</resources>

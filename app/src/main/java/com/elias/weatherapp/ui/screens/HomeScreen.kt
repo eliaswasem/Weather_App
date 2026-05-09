@@ -8,9 +8,11 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.elias.weatherapp.R
 import com.elias.weatherapp.viewmodel.WeatherAppViewModel
 import kotlinx.coroutines.delay
 
@@ -56,9 +58,9 @@ fun HomeScreen(
                     CircularProgressIndicator()
                 }
 
-                viewModel.errorMessage != null && weatherData == null -> {
+                viewModel.errorMessageResId != null && weatherData == null -> {
                     Text(
-                        text = viewModel.errorMessage!!,
+                        text = stringResource(id = viewModel.errorMessageResId!!),
                         color = MaterialTheme.colorScheme.error,
                         style = MaterialTheme.typography.bodyLarge
                     )
@@ -72,7 +74,7 @@ fun HomeScreen(
 
                 weatherData != null -> {
                     Text(
-                        text = viewModel.cityName ?: "Unknown Location",
+                        text = viewModel.cityName ?: stringResource(id = R.string.text_unknown_location),
                         style = MaterialTheme.typography.headlineMedium,
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -80,7 +82,7 @@ fun HomeScreen(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Text(
-                        text = "Current Temperature",
+                        text = stringResource(id = R.string.text_current_temperature),
                         style = MaterialTheme.typography.titleMedium
                     )
                     Text(
@@ -91,7 +93,7 @@ fun HomeScreen(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Text(
-                        text = "Wind",
+                        text = stringResource(id = R.string.text_wind),
                         style = MaterialTheme.typography.labelMedium
                     )
                     Text(
@@ -102,7 +104,7 @@ fun HomeScreen(
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Text(
-                        text = "Humidity",
+                        text = stringResource(id = R.string.text_humidity),
                         style = MaterialTheme.typography.labelMedium
                     )
                     Text(
@@ -112,7 +114,7 @@ fun HomeScreen(
                 }
 
                 else -> {
-                    Text("No weather data available.")
+                    Text(text = stringResource(id = R.string.error_no_weather_data))
                 }
             }
         }

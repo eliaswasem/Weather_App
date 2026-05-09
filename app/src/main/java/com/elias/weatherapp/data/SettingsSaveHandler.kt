@@ -1,7 +1,6 @@
 package com.elias.weatherapp.data
 
 import android.content.Context
-import android.content.res.Resources
 import androidx.datastore.preferences.core.doublePreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey

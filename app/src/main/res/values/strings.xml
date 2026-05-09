@@ -1,3 +1,29 @@
 <resources>
     <string name="app_name">Weather App</string>
+    <string name="button_retry">Retry</string>
+    <string name="text_current_temperature">Current Temperature</string>
+    <string name="text_wind" translatable="false">Wind</string>
+    <string name="text_humidity">Humidity</string>
+    <string name="text_unknown_location">Unknown location</string>
+    <string name="error_no_weather_data">No weather data available.</string>
+    <string name="text_appearance">Appearance</string>
+    <string name="button_delete_saved_location">Delete saved location</string>
+    <string name="error_failed_load_weather">Failed to load weather</string>
+    <string name="error_city_empty">City can\'t be empty.</string>
+    <string name="error_country_empty">Country can\'t be empty.</string>
+    <string name="error_location_not_found">Location not found. Check spelling.</string>
+    <string name="error_network_connection_failed">Network connection failed.</string>
+    <string name="label_settings">Settings</string>
+    <string name="label_home">Home</string>
+    <string name="text_welcome">Welcome to Weather App</string>
+    <string name="label_country">Country</string>
+    <string name="button_continue">Continue</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_system">System</string>
+    <string name="theme_dark">Dark</string>
+    <string name="text_reset">This will reset the app to the start Screen.</string>
+    <string name="lang_english">English</string>
+    <string name="lang_german">German</string>
+    <string name="label_app_theme">App Theme</string>
+    <string name="label_app_language">App Language</string>
 </resources>

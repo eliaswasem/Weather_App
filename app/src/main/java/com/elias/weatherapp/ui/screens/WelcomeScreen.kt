@@ -20,8 +20,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.elias.weatherapp.R
 import com.elias.weatherapp.viewmodel.WeatherAppViewModel
 
 @Composable
@@ -32,7 +34,7 @@ fun WelcomeScreen(
     var city by remember { mutableStateOf("") }
     var country by remember { mutableStateOf("") }
 
-    val isError = viewModel.errorMessage != null
+    val isError = viewModel.errorMessageResId != null
 
     Column(
         modifier = Modifier
@@ -42,7 +44,7 @@ fun WelcomeScreen(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Welcome to Weather App",
+            text = stringResource(id = R.string.text_welcome),
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(bottom = 32.dp)
         )
@@ -51,7 +53,6 @@ fun WelcomeScreen(
             value = city,
             onValueChange = {
                 city = it
-                // viewModel.resetError()
             },
             label = { Text("City") },
             modifier = Modifier.fillMaxWidth(),
@@ -59,7 +60,7 @@ fun WelcomeScreen(
             supportingText = {
                 if (isError) {
                     Text(
-                        text = viewModel.errorMessage ?: "",
+                        text = stringResource(id = viewModel.errorMessageResId!!),
                         color = MaterialTheme.colorScheme.error
                     )
                 }
@@ -72,7 +73,7 @@ fun WelcomeScreen(
         TextField(
             value = country,
             onValueChange = { country = it },
-            label = { Text("Country") },
+            label = { Text(stringResource(id = R.string.label_country)) },
             modifier = Modifier.fillMaxWidth(),
             isError = isError,
             singleLine = true
@@ -98,7 +99,7 @@ fun WelcomeScreen(
                     strokeWidth = 2.dp
                 )
             } else {
-                Text("Continue")
+                Text(stringResource(id = R.string.button_continue))
             }
         }
     }

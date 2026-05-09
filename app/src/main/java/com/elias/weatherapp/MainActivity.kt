@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -57,7 +58,7 @@ class MainActivity : ComponentActivity() {
                                         }
                                     },
                                     icon = { Icon(Icons.Default.Settings, contentDescription = "Settings") },
-                                    label = { Text("Settings") }
+                                    label = { Text(stringResource(id = R.string.label_settings)) }
                                 )
                                 NavigationBarItem(
                                     selected = currentRoute == Routes.HOME,
@@ -74,7 +75,7 @@ class MainActivity : ComponentActivity() {
                                         }
                                     },
                                     icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
-                                    label = { Text("Home") }
+                                    label = { Text(stringResource(id = R.string.label_home)) }
                                 )
                             }
                         }

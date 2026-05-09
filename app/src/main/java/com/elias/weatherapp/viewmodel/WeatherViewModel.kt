@@ -3,8 +3,10 @@ package com.elias.weatherapp.viewmodel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.elias.weatherapp.R
 import com.elias.weatherapp.RetrofitClient
 import com.elias.weatherapp.data.SettingsSaveHandler
 import com.elias.weatherapp.data.model.AppTheme
@@ -31,7 +33,7 @@ class WeatherAppViewModel @Inject constructor(
     var isLoading by mutableStateOf(false)
         private set
 
-    var errorMessage by mutableStateOf<String?>(null)
+    var errorMessageResId by mutableStateOf<Int?>(null)
         private set
 
     var cityName by mutableStateOf<String?>(null)
@@ -45,7 +47,7 @@ class WeatherAppViewModel @Inject constructor(
             if (coords != null) {
                 cityName = coords.name
                 try {
-                    errorMessage = null
+                    errorMessageResId = null
 
                     val response = RetrofitClient.weatherApi.getWeather(
                         coords.latitude,
@@ -54,7 +56,7 @@ class WeatherAppViewModel @Inject constructor(
                     _weather.value = response.toWeatherData()
                 } catch (e: Exception) {
                     _weather.value = null
-                    errorMessage = "Failed to load weather"
+                    errorMessageResId = R.string.error_failed_load_weather
                 } finally {
                     isLoading = false
                 }
@@ -64,18 +66,18 @@ class WeatherAppViewModel @Inject constructor(
 
     fun getAndSaveLocationFromCoords(city: String, country: String, onSuccess: () -> Unit) {
         if (city.isBlank()) {
-            errorMessage = "City cannot be empty"
+            errorMessageResId = R.string.error_city_empty
             return
         }
         if (country.isBlank()) {
-            errorMessage = "Country cannot be empty"
+            errorMessageResId = R.string.error_country_empty
             return
         }
 
         viewModelScope.launch {
             try {
                 isLoading = true
-                errorMessage = null
+                errorMessageResId = null
 
                 val response = RetrofitClient.locationApi.getLocation(city.trim(), country.trim())
                 val location = response.results?.firstOrNull()
@@ -91,10 +93,10 @@ class WeatherAppViewModel @Inject constructor(
                     )
                     onSuccess()
                 } else {
-                    errorMessage = "Location not found. Check spelling."
+                    errorMessageResId = R.string.error_location_not_found
                 }
             } catch (e: Exception) {
-                errorMessage = "Network connection failed"
+                errorMessageResId = R.string.error_network_connection_failed
             } finally {
                 isLoading = false
             }
@@ -123,7 +125,7 @@ class WeatherAppViewModel @Inject constructor(
         }
     }
     fun retry() {
-        errorMessage = null
+        errorMessageResId = null
         loadWeather()
     }
 
