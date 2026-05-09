@@ -14,13 +14,16 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.elias.weatherapp.ui.Routes
 import com.elias.weatherapp.ui.WeatherNavGraph
 import com.elias.weatherapp.ui.theme.WeatherAppTheme
+import com.elias.weatherapp.viewmodel.WeatherAppViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,7 +33,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            WeatherAppTheme {
+            val viewModel: WeatherAppViewModel = hiltViewModel()
+            val selectedTheme by viewModel.theme.collectAsState()
+
+            WeatherAppTheme(selectedTheme = selectedTheme) {
                 val navController = rememberNavController()
 
                 val navBackStackEntry by navController.currentBackStackEntryAsState()

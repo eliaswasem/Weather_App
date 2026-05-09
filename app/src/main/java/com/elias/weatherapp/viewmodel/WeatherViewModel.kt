@@ -7,12 +7,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elias.weatherapp.RetrofitClient
 import com.elias.weatherapp.data.SettingsSaveHandler
+import com.elias.weatherapp.data.model.AppTheme
 import com.elias.weatherapp.data.model.LocationData
 import com.elias.weatherapp.data.model.WeatherData
 import com.elias.weatherapp.data.toWeatherData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -93,5 +97,17 @@ class WeatherAppViewModel @Inject constructor(
 
     suspend fun getSavedLocation(): LocationData? {
         return saveHandler.getSavedLocation()
+    }
+
+    val theme: StateFlow<AppTheme> = saveHandler.themeFlow
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = AppTheme.SYSTEM
+        )
+    fun updateTheme(newTheme: AppTheme) {
+        viewModelScope.launch {
+            saveHandler.saveTheme(newTheme)
+        }
     }
 }

@@ -65,13 +65,7 @@ fun WeatherNavGraph(
             }
 
             composable(Routes.SETTINGS) {
-                SettingsScreen(
-                    onNavigateToHome = {
-                        navController.navigate(Routes.HOME) {
-                            popUpTo(Routes.WELCOME) { inclusive = true}
-                        }
-                    }
-                )
+                SettingsScreen()
             }
         }
     }
