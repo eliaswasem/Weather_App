@@ -1,7 +1,7 @@
 package com.elias.weatherapp
 
+import com.elias.weatherapp.apis.CurrentWeatherApi
 import com.elias.weatherapp.apis.LocationApi
-import com.elias.weatherapp.apis.WeatherApi
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -17,12 +17,12 @@ object RetrofitClient {
         }
         .build()
 
-    val weatherApi: WeatherApi by lazy {
+    val currentWeatherApi: CurrentWeatherApi by lazy {
         Retrofit.Builder()
             .baseUrl("https://api.open-meteo.com/v1/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(WeatherApi::class.java)
+            .create(CurrentWeatherApi::class.java)
     }
 
     val locationApi: LocationApi by lazy {

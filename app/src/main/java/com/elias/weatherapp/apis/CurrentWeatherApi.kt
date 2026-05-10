@@ -1,10 +1,10 @@
 package com.elias.weatherapp.apis
 
-import com.elias.weatherapp.data.model.WeatherApiResponse
+import com.elias.weatherapp.data.model.CurrentWeatherApiResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface WeatherApi {
+interface CurrentWeatherApi {
 
     @GET("forecast")
     suspend fun getWeather(
@@ -12,5 +12,5 @@ interface WeatherApi {
         @Query("longitude") lon: Double,
         @Query("current") current: String =
             "temperature_2m,relative_humidity_2m,wind_speed_10m"
-    ): WeatherApiResponse
+    ): CurrentWeatherApiResponse
 }

@@ -13,7 +13,7 @@ import com.elias.weatherapp.data.SettingsSaveHandler
 import com.elias.weatherapp.data.model.AppLanguage
 import com.elias.weatherapp.data.model.AppTheme
 import com.elias.weatherapp.data.model.LocationData
-import com.elias.weatherapp.data.model.WeatherData
+import com.elias.weatherapp.data.model.CurrentWeatherData
 import com.elias.weatherapp.data.toWeatherData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,7 +29,7 @@ class WeatherAppViewModel @Inject constructor(
     private val saveHandler: SettingsSaveHandler
 ) : ViewModel()  {
 
-    private val _weather = MutableStateFlow<WeatherData?>(null)
+    private val _weather = MutableStateFlow<CurrentWeatherData?>(null)
     val weather = _weather.asStateFlow()
 
     var isLoading by mutableStateOf(false)

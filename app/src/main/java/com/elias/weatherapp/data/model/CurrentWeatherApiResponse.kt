@@ -2,7 +2,7 @@ package com.elias.weatherapp.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class WeatherApiResponse(
+data class CurrentWeatherApiResponse(
     val current: CurrentWeather
 )
 
