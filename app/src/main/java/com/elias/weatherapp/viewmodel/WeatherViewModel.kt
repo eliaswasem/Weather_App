@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.res.stringResource
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -92,16 +91,15 @@ class WeatherAppViewModel @Inject constructor(
                 isLoading = true
                 errorMessageResId = null
 
-                val response = RetrofitClient.locationApi.getLocation(city.trim(), country.trim())
-                val location = response.results?.firstOrNull()
+                val responseList = RetrofitClient.locationApi.getLocation(city.trim(), country.trim())
+                val location = responseList.firstOrNull()
 
                 if (location != null) {
                     saveHandler.saveLocation(
                         LocationData(
                             latitude = location.latitude,
                             longitude = location.longitude,
-                            name = location.name,
-                            country = location.country
+                            name = location.name
                         )
                     )
                     onSuccess()

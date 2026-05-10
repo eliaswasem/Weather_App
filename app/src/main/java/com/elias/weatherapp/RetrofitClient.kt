@@ -2,10 +2,20 @@ package com.elias.weatherapp
 
 import com.elias.weatherapp.apis.LocationApi
 import com.elias.weatherapp.apis.WeatherApi
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
+
+    private val nominatimHttpClient = OkHttpClient.Builder()
+        .addInterceptor { chain ->
+            val request = chain.request().newBuilder()
+                .header("User-Agent", "EliasWeatherApp/1.3.0 (ewasem@@outlook.de)")
+                .build()
+            chain.proceed(request)
+        }
+        .build()
 
     val weatherApi: WeatherApi by lazy {
         Retrofit.Builder()
@@ -17,7 +27,8 @@ object RetrofitClient {
 
     val locationApi: LocationApi by lazy {
         Retrofit.Builder()
-            .baseUrl("https://geocoding-api.open-meteo.com/v1/")
+            .baseUrl("https://nominatim.openstreetmap.org/")
+            .client(nominatimHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(LocationApi::class.java)

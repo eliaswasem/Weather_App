@@ -8,8 +8,8 @@ interface LocationApi {
 
     @GET("search")
     suspend fun getLocation(
-        @Query("name") name: String,
+        @Query("city") city: String,
         @Query("country") country: String,
-        @Query("count") count: Int = 1
-    ): LocationApiResponse
+        @Query("format") format: String = "jsonv2"
+    ): List<LocationApiResponse>
 }
