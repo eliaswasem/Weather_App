@@ -42,7 +42,13 @@ class WeatherAppViewModel @Inject constructor(
     var cityName by mutableStateOf<String?>(null)
         private set
 
-    private val _language = MutableStateFlow(AppLanguage.ENGLISH)
+    private val _language = MutableStateFlow(
+        AppLanguage.fromCode(
+            AppCompatDelegate.getApplicationLocales()
+                .get(0)
+                ?.language
+        )
+    )
 
     val language = _language.asStateFlow()
 
