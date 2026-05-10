@@ -26,4 +26,5 @@
     <string name="lang_german">German</string>
     <string name="label_app_theme">App Theme</string>
     <string name="label_app_language">App Language</string>
+    <string name="label_city">City</string>
 </resources>

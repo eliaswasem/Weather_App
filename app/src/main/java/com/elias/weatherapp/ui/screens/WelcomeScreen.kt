@@ -54,7 +54,7 @@ fun WelcomeScreen(
             onValueChange = {
                 city = it
             },
-            label = { Text("City") },
+            label = { Text(stringResource(id = R.string.label_city)) },
             modifier = Modifier.fillMaxWidth(),
             isError = isError,
             supportingText = {
