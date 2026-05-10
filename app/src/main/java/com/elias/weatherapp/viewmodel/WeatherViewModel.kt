@@ -1,14 +1,17 @@
 package com.elias.weatherapp.viewmodel
 
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
+import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elias.weatherapp.R
 import com.elias.weatherapp.RetrofitClient
 import com.elias.weatherapp.data.SettingsSaveHandler
+import com.elias.weatherapp.data.model.AppLanguage
 import com.elias.weatherapp.data.model.AppTheme
 import com.elias.weatherapp.data.model.LocationData
 import com.elias.weatherapp.data.model.WeatherData
@@ -38,6 +41,10 @@ class WeatherAppViewModel @Inject constructor(
 
     var cityName by mutableStateOf<String?>(null)
         private set
+
+    private val _language = MutableStateFlow(AppLanguage.ENGLISH)
+
+    val language = _language.asStateFlow()
 
     fun loadWeather() {
         viewModelScope.launch {
@@ -127,6 +134,13 @@ class WeatherAppViewModel @Inject constructor(
     fun retry() {
         errorMessageResId = null
         loadWeather()
+    }
+
+    fun updateLanguage(language: AppLanguage) {
+        _language.value = language
+
+        val localeList = LocaleListCompat.forLanguageTags(language.code)
+        AppCompatDelegate.setApplicationLocales(localeList)
     }
 
 }

@@ -28,8 +28,7 @@ fun SettingsScreen(
     var themeExpanded by remember { mutableStateOf(false) }
     var languageExpanded by remember { mutableStateOf(false) }
 
-    val currentLocaleCode = AppCompatDelegate.getApplicationLocales().get(0)?.language
-    val currentLanguage = AppLanguage.fromCode(currentLocaleCode)
+    val currentLanguage by viewModel.language.collectAsState()
 
     Column(
         modifier = Modifier
@@ -107,9 +106,7 @@ fun SettingsScreen(
                     DropdownMenuItem(
                         text = { Text(stringResource(id = languageOption.labelResId)) },
                         onClick = {
-                            val localeList = LocaleListCompat.forLanguageTags(languageOption.code)
-                            AppCompatDelegate.setApplicationLocales(localeList)
-
+                            viewModel.updateLanguage(languageOption)
                             languageExpanded = false
                         },
                         contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding

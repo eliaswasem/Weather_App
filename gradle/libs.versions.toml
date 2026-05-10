@@ -8,6 +8,7 @@ coreKtx = "1.12.0"
 lifecycle = "2.8.0"
 activityCompose = "1.9.0"
 composeBom = "2024.12.01"
+material = "1.13.0"
 navigation = "2.8.5"
 hiltNavigationCompose = "1.2.0"
 datastore = "1.1.1"
@@ -41,6 +42,7 @@ hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 
+material = { module = "com.google.android.material:material", version.ref = "material" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 
