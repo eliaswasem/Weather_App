@@ -12,8 +12,8 @@ import com.elias.weatherapp.RetrofitClient
 import com.elias.weatherapp.data.SettingsSaveHandler
 import com.elias.weatherapp.data.model.AppLanguage
 import com.elias.weatherapp.data.model.AppTheme
-import com.elias.weatherapp.data.model.LocationData
-import com.elias.weatherapp.data.model.CurrentWeatherData
+import com.elias.weatherapp.data.model.domain.LocationData
+import com.elias.weatherapp.data.model.domain.CurrentWeatherData
 import com.elias.weatherapp.data.toWeatherData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -51,7 +51,7 @@ class WeatherAppViewModel @Inject constructor(
 
     val language = _language.asStateFlow()
 
-    fun loadWeather() {
+    fun loadCurrentWeather() {
         viewModelScope.launch {
             isLoading = true
             val coords = saveHandler.getSavedLocation()
@@ -61,7 +61,7 @@ class WeatherAppViewModel @Inject constructor(
                 try {
                     errorMessageResId = null
 
-                    val response = RetrofitClient.weatherApi.getWeather(
+                    val response = RetrofitClient.currentWeatherApi.getWeather(
                         coords.latitude,
                         coords.longitude
                     )
@@ -137,7 +137,7 @@ class WeatherAppViewModel @Inject constructor(
     }
     fun retry() {
         errorMessageResId = null
-        loadWeather()
+        loadCurrentWeather()
     }
 
     fun updateLanguage(language: AppLanguage) {
@@ -146,5 +146,21 @@ class WeatherAppViewModel @Inject constructor(
         val localeList = LocaleListCompat.forLanguageTags(language.code)
         AppCompatDelegate.setApplicationLocales(localeList)
     }
+    fun getWindDirectionResId(degree: Int): Int {
+        return when (degree) {
+            in 338..360, in 0..22 -> R.string.wind_n
+            in 23..67 -> R.string.wind_ne
+            in 68..112 -> R.string.wind_e
+            in 113..157 -> R.string.wind_se
+            in 158..202 -> R.string.wind_s
+            in 203..247 -> R.string.wind_sw
+            in 248..292 -> R.string.wind_w
+            in 293..337 -> R.string.wind_nw
+            else -> R.string.unknown
+        }
+    }
+
+
+
 
 }

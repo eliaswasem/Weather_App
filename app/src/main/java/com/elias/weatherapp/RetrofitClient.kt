@@ -1,17 +1,16 @@
 package com.elias.weatherapp
 
-import com.elias.weatherapp.apis.CurrentWeatherApi
-import com.elias.weatherapp.apis.LocationApi
+import com.elias.weatherapp.data.apis.request.CurrentWeatherApi
+import com.elias.weatherapp.data.apis.request.LocationApi
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
-
     private val nominatimHttpClient = OkHttpClient.Builder()
         .addInterceptor { chain ->
             val request = chain.request().newBuilder()
-                .header("User-Agent", "EliasWeatherApp/1.3.0 (ewasem@@outlook.de)")
+                .header("User-Agent", "EliasWeatherApp/${BuildConfig.VERSION_NAME}(ewasem@@outlook.de)")
                 .build()
             chain.proceed(request)
         }

@@ -1,4 +1,4 @@
-package com.elias.weatherapp.data.model
+package com.elias.weatherapp.data.model.domain
 
 data class LocationData(
     val latitude: Double,

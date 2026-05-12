@@ -1,6 +1,6 @@
-package com.elias.weatherapp.apis
+package com.elias.weatherapp.data.apis.request
 
-import com.elias.weatherapp.data.model.LocationApiResponse
+import com.elias.weatherapp.data.apis.response.LocationApiResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

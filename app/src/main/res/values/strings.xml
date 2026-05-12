@@ -2,7 +2,7 @@
     <string name="app_name">Weather App</string>
     <string name="button_retry">Retry</string>
     <string name="text_current_temperature">Current Temperature</string>
-    <string name="text_wind" translatable="false">Wind</string>
+    <string name="text_wind">Wind</string>
     <string name="text_humidity">Humidity</string>
     <string name="text_unknown_location">Unknown location</string>
     <string name="error_no_weather_data">No weather data available.</string>
@@ -27,4 +27,23 @@
     <string name="label_app_theme">App Theme</string>
     <string name="label_app_language">App Language</string>
     <string name="label_city">City</string>
+    <string name="text_apparent_temperature">Apparent Temp.</string>
+    <string name="text_precipitation">Precipitation</string>
+    <string name="text_snowfall">Snowfall</string>
+    <string name="text_cloud_cover">Cloud Cover</string>
+    <string name="text_pressure_msl">Pressure (MSL)</string>
+    <string name="text_surface_pressure">Surface Pressure</string>
+    <string name="text_wind_direction">Wind Direction</string>
+    <string name="text_wind_gusts">Wind Gusts</string>
+    <string name="wind_n">North</string>
+    <string name="wind_ne">Northeast</string>
+    <string name="wind_e">East</string>
+    <string name="wind_se">Southeast</string>
+    <string name="wind_s">South</string>
+    <string name="wind_sw">Southwest</string>
+    <string name="wind_w">West</string>
+    <string name="wind_nw">Northwest</string>
+    <string name="unknown">Unknown</string>
+
+
 </resources>
