@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Cloud
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
@@ -59,7 +60,20 @@ class MainActivity : AppCompatActivity() {
                                         }
                                     },
                                     icon = { Icon(Icons.Default.Settings, contentDescription = "Settings") },
-                                    label = { Text(stringResource(id = R.string.label_settings)) }
+                                    label = { Text(stringResource(R.string.label_settings)) }
+                                )
+                                NavigationBarItem(
+                                    selected = currentRoute == Routes.TODAY,
+                                    onClick = {
+                                        if (currentRoute != Routes.TODAY) {
+                                            navController.navigate(Routes.TODAY) {
+                                                launchSingleTop = true
+                                                restoreState = true
+                                            }
+                                        }
+                                    },
+                                    icon = { Icon(Icons.Default.Cloud, contentDescription = "Today")},
+                                    label = { Text(stringResource(R.string.label_today))}
                                 )
                                 NavigationBarItem(
                                     selected = currentRoute == Routes.HOME,
@@ -76,7 +90,7 @@ class MainActivity : AppCompatActivity() {
                                         }
                                     },
                                     icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
-                                    label = { Text(stringResource(id = R.string.label_home)) }
+                                    label = { Text(stringResource(R.string.label_home)) }
                                 )
                             }
                         }

@@ -45,6 +45,13 @@
     <string name="wind_nw">Northwest</string>
     <string name="unknown">Unknown</string>
     <string name="label_display_options">Display Options</string>
+    <string name="label_today">Today</string>
+    <string name="text_precipitation_probability">Precipitation Probability</string>
+    <string name="text_snow_depth">Snow Depth</string>
+    <string name="text_visibility">Visibility</string>
+    <string name="text_soil_temperature">Soil Temperature</string>
+    <string name="text_soil_moisture">Soil Humidity</string>
+    <string name="text_now">Now</string>
 
 
 </resources>

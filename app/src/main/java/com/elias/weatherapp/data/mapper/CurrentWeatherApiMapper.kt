@@ -1,4 +1,4 @@
-package com.elias.weatherapp.data
+package com.elias.weatherapp.data.mapper
 
 import com.elias.weatherapp.data.apis.response.CurrentWeatherApiResponse
 import com.elias.weatherapp.data.model.domain.CurrentWeatherData

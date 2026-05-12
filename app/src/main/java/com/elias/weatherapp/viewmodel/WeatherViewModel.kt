@@ -1,5 +1,6 @@
 package com.elias.weatherapp.viewmodel
 
+import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -10,12 +11,14 @@ import androidx.lifecycle.viewModelScope
 import com.elias.weatherapp.R
 import com.elias.weatherapp.RetrofitClient
 import com.elias.weatherapp.data.SettingsSaveHandler
+import com.elias.weatherapp.data.mapper.toHourlyWeatherDataList
 import com.elias.weatherapp.data.model.AppLanguage
 import com.elias.weatherapp.data.model.AppTheme
 import com.elias.weatherapp.data.model.domain.LocationData
 import com.elias.weatherapp.data.model.domain.CurrentWeatherData
 import com.elias.weatherapp.data.model.domain.DisplaySettings
-import com.elias.weatherapp.data.toWeatherData
+import com.elias.weatherapp.data.mapper.toWeatherData
+import com.elias.weatherapp.data.model.domain.HourlyWeatherData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -33,7 +36,16 @@ class WeatherAppViewModel @Inject constructor(
     private val _weather = MutableStateFlow<CurrentWeatherData?>(null)
     val weather = _weather.asStateFlow()
 
+    private val _hourlyWeather = MutableStateFlow<List<HourlyWeatherData>>(emptyList())
+    val hourlyWeather = _hourlyWeather.asStateFlow()
+
     var isLoading by mutableStateOf(false)
+        private set
+
+    var isHourlyLoading by mutableStateOf(false)
+        private set
+
+    var hourlyErrorOccurred by mutableStateOf(false)
         private set
 
     var errorMessageResId by mutableStateOf<Int?>(null)
@@ -52,27 +64,66 @@ class WeatherAppViewModel @Inject constructor(
 
     val language = _language.asStateFlow()
 
-    fun loadCurrentWeather() {
+    fun loadCurrentWeather(isBackgroundUpdate: Boolean = false) {
         viewModelScope.launch {
-            isLoading = true
+            if (!isBackgroundUpdate) {
+                isLoading = true
+            }
+
             val coords = saveHandler.getSavedLocation()
 
             if (coords != null) {
                 cityName = coords.name
                 try {
                     errorMessageResId = null
-
                     val response = RetrofitClient.currentWeatherApi.getWeather(
                         coords.latitude,
                         coords.longitude
                     )
                     _weather.value = response.toWeatherData()
                 } catch (e: Exception) {
-                    _weather.value = null
+                    if (_weather.value == null) {
+                        _weather.value = null
+                    }
                     errorMessageResId = R.string.error_failed_load_weather
                 } finally {
                     isLoading = false
                 }
+            } else {
+                isLoading = false
+            }
+        }
+    }
+
+
+    fun loadHourlyWeather(force: Boolean = false) {
+        viewModelScope.launch {
+
+            if (!force && _hourlyWeather.value.isNotEmpty()) return@launch
+
+            isHourlyLoading = true
+            hourlyErrorOccurred = false
+
+            val coords = saveHandler.getSavedLocation()
+
+            if (coords == null) {
+                isHourlyLoading = false
+                return@launch
+            }
+
+            try {
+                val response = RetrofitClient.hourlyWeatherApi.getWeather(
+                    coords.latitude,
+                    coords.longitude
+                )
+
+                _hourlyWeather.value = response.toHourlyWeatherDataList()
+
+            } catch (e: Exception) {
+                hourlyErrorOccurred = true
+                _hourlyWeather.value = emptyList()
+            } finally {
+                isHourlyLoading = false
             }
         }
     }
@@ -122,7 +173,11 @@ class WeatherAppViewModel @Inject constructor(
     fun deleteLocationAndReset() {
         viewModelScope.launch {
             saveHandler.clearLocation()
+
             _weather.value = null
+            _hourlyWeather.value = emptyList()
+
+            hourlyErrorOccurred = false
         }
     }
     val theme: StateFlow<AppTheme> = saveHandler.themeFlow

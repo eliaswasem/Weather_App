@@ -27,11 +27,14 @@ fun HomeScreen(
     val displaySettings by viewModel.displaySettings.collectAsState()
 
     LaunchedEffect(Unit) {
+        viewModel.loadCurrentWeather(isBackgroundUpdate = false)
+
         while (true) {
-            viewModel.loadCurrentWeather()
             delay(15 * 60 * 1000)
+            viewModel.loadCurrentWeather(isBackgroundUpdate = true)
         }
     }
+
 
     LaunchedEffect(viewModel.isLoading) {
         if (!viewModel.isLoading) {
@@ -62,7 +65,7 @@ fun HomeScreen(
 
                 viewModel.errorMessageResId != null && weatherData == null -> {
                     Text(
-                        text = stringResource(id = viewModel.errorMessageResId!!),
+                        text = stringResource(viewModel.errorMessageResId!!),
                         color = MaterialTheme.colorScheme.error,
                         style = MaterialTheme.typography.bodyLarge
                     )
@@ -81,7 +84,7 @@ fun HomeScreen(
                             horizontalAlignment = Alignment.Start
                         ) {
                             Text(
-                                text = viewModel.cityName ?: stringResource(id = R.string.text_unknown_location),
+                                text = viewModel.cityName ?: stringResource(R.string.text_unknown_location),
                                 style = MaterialTheme.typography.headlineMedium,
                                 color = MaterialTheme.colorScheme.primary
                             )
@@ -95,7 +98,7 @@ fun HomeScreen(
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 WeatherItem(
-                                    label = stringResource(id = R.string.text_current_temperature),
+                                    label = stringResource(R.string.text_current_temperature),
                                     value = "${data.temperature}°C",
                                     labelStyle = MaterialTheme.typography.titleMedium,
                                     valueStyle = MaterialTheme.typography.displayLarge
@@ -115,7 +118,7 @@ fun HomeScreen(
                                 if (displaySettings.showWindDirection) {
                                     WeatherItem(
                                         label = stringResource(R.string.text_wind_direction),
-                                        value = stringResource(id = viewModel.getWindDirectionResId(data.windDirection))
+                                        value = stringResource(viewModel.getWindDirectionResId(data.windDirection))
                                     )
                                 }
                                 if (displaySettings.showHumidity) {
@@ -150,7 +153,7 @@ fun HomeScreen(
 
                 else -> {
                     Text(
-                        text = stringResource(id = R.string.error_no_weather_data),
+                        text = stringResource(R.string.error_no_weather_data),
                         modifier = Modifier.padding(top = 100.dp)
                     )
                 }

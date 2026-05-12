@@ -44,7 +44,7 @@ fun WelcomeScreen(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = stringResource(id = R.string.text_welcome),
+            text = stringResource(R.string.text_welcome),
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(bottom = 32.dp)
         )
@@ -54,13 +54,13 @@ fun WelcomeScreen(
             onValueChange = {
                 city = it
             },
-            label = { Text(stringResource(id = R.string.label_city)) },
+            label = { Text(stringResource(R.string.label_city)) },
             modifier = Modifier.fillMaxWidth(),
             isError = isError,
             supportingText = {
                 if (isError) {
                     Text(
-                        text = stringResource(id = viewModel.errorMessageResId!!),
+                        text = stringResource(viewModel.errorMessageResId!!),
                         color = MaterialTheme.colorScheme.error
                     )
                 }
@@ -73,7 +73,7 @@ fun WelcomeScreen(
         TextField(
             value = country,
             onValueChange = { country = it },
-            label = { Text(stringResource(id = R.string.label_country)) },
+            label = { Text(stringResource(R.string.label_country)) },
             modifier = Modifier.fillMaxWidth(),
             isError = isError,
             singleLine = true
@@ -99,7 +99,7 @@ fun WelcomeScreen(
                     strokeWidth = 2.dp
                 )
             } else {
-                Text(stringResource(id = R.string.button_continue))
+                Text(stringResource(R.string.button_continue))
             }
         }
     }

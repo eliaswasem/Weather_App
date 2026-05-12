@@ -17,6 +17,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.elias.weatherapp.ui.screens.HomeScreen
 import com.elias.weatherapp.ui.screens.SettingsScreen
+import com.elias.weatherapp.ui.screens.TodaysWeatherScreen
 import com.elias.weatherapp.ui.screens.WelcomeScreen
 import com.elias.weatherapp.viewmodel.WeatherAppViewModel
 
@@ -24,6 +25,8 @@ object Routes {
     const val WELCOME = "welcome"
     const val HOME = "home"
     const val SETTINGS = "settings"
+
+    const val TODAY = "today"
 }
 
 @Composable
@@ -72,6 +75,10 @@ fun WeatherNavGraph(
                         }
                     }
                 )
+            }
+
+            composable(Routes.TODAY) {
+                TodaysWeatherScreen()
             }
         }
     }

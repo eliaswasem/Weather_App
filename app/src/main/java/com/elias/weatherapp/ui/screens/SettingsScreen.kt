@@ -40,7 +40,7 @@ fun SettingsScreen(
         verticalArrangement = Arrangement.Top
     ) {
         Text(
-            text = stringResource(id = R.string.text_appearance),
+            text = stringResource(R.string.text_appearance),
             style = MaterialTheme.typography.headlineSmall,
             color = MaterialTheme.colorScheme.primary
         )
@@ -54,17 +54,17 @@ fun SettingsScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             OutlinedTextField(
-                value = stringResource(id = currentTheme.labelResId),
+                value = stringResource(currentTheme.labelResId),
                 onValueChange = {},
                 readOnly = true,
-                label = { Text(stringResource(id = R.string.label_app_theme)) },
+                label = { Text(stringResource(R.string.label_app_theme)) },
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = themeExpanded) },
                 modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable).fillMaxWidth()
             )
             ExposedDropdownMenu(expanded = themeExpanded, onDismissRequest = { themeExpanded = false }) {
                 AppTheme.entries.forEach { themeOption ->
                     DropdownMenuItem(
-                        text = { Text(stringResource(id = themeOption.labelResId)) },
+                        text = { Text(stringResource(themeOption.labelResId)) },
                         onClick = { viewModel.updateTheme(themeOption); themeExpanded = false }
                     )
                 }
@@ -83,14 +83,14 @@ fun SettingsScreen(
                 value = stringResource(id = currentLanguage.labelResId),
                 onValueChange = {},
                 readOnly = true,
-                label = { Text(stringResource(id = R.string.label_app_language)) },
+                label = { Text(stringResource(R.string.label_app_language)) },
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = languageExpanded) },
                 modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable).fillMaxWidth()
             )
             ExposedDropdownMenu(expanded = languageExpanded, onDismissRequest = { languageExpanded = false }) {
                 AppLanguage.entries.forEach { languageOption ->
                     DropdownMenuItem(
-                        text = { Text(stringResource(id = languageOption.labelResId)) },
+                        text = { Text(stringResource(languageOption.labelResId)) },
                         onClick = { viewModel.updateLanguage(languageOption); languageExpanded = false }
                     )
                 }
@@ -103,7 +103,7 @@ fun SettingsScreen(
 
         R.string.label_display_options
             Text(
-                text = stringResource(id = R.string.label_display_options),
+                text = stringResource(R.string.label_display_options),
                 style = MaterialTheme.typography.headlineSmall,
                 color = MaterialTheme.colorScheme.primary
             )
@@ -174,11 +174,11 @@ fun SettingsScreen(
         ) {
             Icon(Icons.Default.Delete, contentDescription = null)
             Spacer(modifier = Modifier.width(8.dp))
-            Text(text = stringResource(id = R.string.button_delete_saved_location))
+            Text(text = stringResource(R.string.button_delete_saved_location))
         }
 
         Text(
-            text = stringResource(id = R.string.text_reset),
+            text = stringResource(R.string.text_reset),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(top = 8.dp)
