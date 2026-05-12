@@ -24,6 +24,7 @@ fun HomeScreen(
 ) {
     val weatherData by viewModel.weather.collectAsStateWithLifecycle()
     var isManualRefreshing by remember { mutableStateOf(false) }
+    val displaySettings by viewModel.displaySettings.collectAsState()
 
     LaunchedEffect(Unit) {
         while (true) {
@@ -87,26 +88,61 @@ fun HomeScreen(
 
                             Spacer(modifier = Modifier.height(16.dp))
 
-                            WeatherItem(stringResource(id = R.string.text_current_temperature), "${data.temperature}", MaterialTheme.typography.titleMedium, MaterialTheme.typography.displayLarge)
-                            WeatherItem(stringResource(R.string.text_apparent_temperature), "${data.apparentTemperature}°C")
-                            WeatherItem(stringResource(R.string.text_wind), "${data.windSpeed} km/h")
-                            WeatherItem(stringResource(R.string.text_humidity), "${data.humidity}%")
-                            WeatherItem(stringResource(R.string.text_cloud_cover), "${data.cloudCover}%")
-                            WeatherItem(stringResource(R.string.text_wind_gusts), "${data.windGusts} km/h")
-                            if (data.precipitation > 0.0) {
+                            val displaySettings by viewModel.displaySettings.collectAsStateWithLifecycle()
+
+                            Column(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
                                 WeatherItem(
-                                    stringResource(R.string.text_precipitation),
-                                    "${data.precipitation} mm"
+                                    label = stringResource(id = R.string.text_current_temperature),
+                                    value = "${data.temperature}°C",
+                                    labelStyle = MaterialTheme.typography.titleMedium,
+                                    valueStyle = MaterialTheme.typography.displayLarge
                                 )
-                            }
-                            WeatherItem(stringResource(R.string.text_pressure_msl), "${data.pressureMsl} hPa")
-                            WeatherItem(stringResource(R.string.text_wind_direction), stringResource(id = viewModel.getWindDirectionResId(data.windDirection)))
-                            WeatherItem(stringResource(R.string.text_surface_pressure), "${data.surfacePressure} hPa")
-                            if (data.snowfall > 0.0) {
-                                WeatherItem(
-                                    stringResource(R.string.text_snowfall),
-                                    "${data.snowfall} cm"
-                                )
+
+                                Spacer(modifier = Modifier.height(16.dp))
+
+                                if (displaySettings.showApparentTemp) {
+                                    WeatherItem(stringResource(R.string.text_apparent_temperature), "${data.apparentTemperature}°C")
+                                }
+                                if (displaySettings.showWind) {
+                                    WeatherItem(stringResource(R.string.text_wind), "${data.windSpeed} km/h")
+                                }
+                                if (displaySettings.showWindGusts && data.windGusts > 0.0) {
+                                    WeatherItem(stringResource(R.string.text_wind_gusts), "${data.windGusts} km/h")
+                                }
+                                if (displaySettings.showWindDirection) {
+                                    WeatherItem(
+                                        label = stringResource(R.string.text_wind_direction),
+                                        value = stringResource(id = viewModel.getWindDirectionResId(data.windDirection))
+                                    )
+                                }
+                                if (displaySettings.showHumidity) {
+                                    WeatherItem(stringResource(R.string.text_humidity), "${data.humidity}%")
+                                }
+
+                                if (displaySettings.showCloudCover) {
+                                    WeatherItem(stringResource(R.string.text_cloud_cover), "${data.cloudCover}%")
+                                }
+                                if (displaySettings.showPrecipitation && data.precipitation > 0.0) {
+                                    WeatherItem(stringResource(R.string.text_precipitation), "${data.precipitation} mm")
+                                }
+                                if (displaySettings.showSnowfall && data.snowfall > 0.0) {
+                                    WeatherItem(stringResource(R.string.text_snowfall), "${data.snowfall} cm")
+                                }
+                                if (displaySettings.showPressureMsl) {
+                                    WeatherItem(
+                                        label = stringResource(R.string.text_pressure_msl),
+                                        value = "${data.pressureMsl} hPa"
+                                    )
+                                }
+                                if (displaySettings.showSurfacePressure) {
+                                    WeatherItem(
+                                        label = stringResource(R.string.text_surface_pressure),
+                                        value = "${data.surfacePressure} hPa"
+                                    )
+                                }
                             }
                         }
                     }
