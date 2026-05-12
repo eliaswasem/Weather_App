@@ -1,7 +1,8 @@
 package com.elias.weatherapp.ui.screens
 
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
@@ -10,8 +11,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.os.LocaleListCompat
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.elias.weatherapp.R
 import com.elias.weatherapp.data.model.AppTheme
 import com.elias.weatherapp.data.model.AppLanguage
@@ -24,18 +25,19 @@ fun SettingsScreen(
     onLocationDeleted: () -> Unit = {}
 ) {
     val currentTheme by viewModel.theme.collectAsState()
+    val currentLanguage by viewModel.language.collectAsState()
+    val displaySettings by viewModel.displaySettings.collectAsStateWithLifecycle()
 
     var themeExpanded by remember { mutableStateOf(false) }
     var languageExpanded by remember { mutableStateOf(false) }
 
-    val currentLanguage by viewModel.language.collectAsState()
-
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp),
+            .padding(24.dp)
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Top
     ) {
         Text(
             text = stringResource(id = R.string.text_appearance),
@@ -45,6 +47,7 @@ fun SettingsScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // --- Theme Dropdown ---
         ExposedDropdownMenuBox(
             expanded = themeExpanded,
             onExpandedChange = { themeExpanded = !themeExpanded },
@@ -56,24 +59,13 @@ fun SettingsScreen(
                 readOnly = true,
                 label = { Text(stringResource(id = R.string.label_app_theme)) },
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = themeExpanded) },
-                colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
-                modifier = Modifier
-                    .menuAnchor(MenuAnchorType.PrimaryNotEditable)
-                    .fillMaxWidth()
+                modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable).fillMaxWidth()
             )
-
-            ExposedDropdownMenu(
-                expanded = themeExpanded,
-                onDismissRequest = { themeExpanded = false }
-            ) {
+            ExposedDropdownMenu(expanded = themeExpanded, onDismissRequest = { themeExpanded = false }) {
                 AppTheme.entries.forEach { themeOption ->
                     DropdownMenuItem(
                         text = { Text(stringResource(id = themeOption.labelResId)) },
-                        onClick = {
-                            viewModel.updateTheme(themeOption)
-                            themeExpanded = false
-                        },
-                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                        onClick = { viewModel.updateTheme(themeOption); themeExpanded = false }
                     )
                 }
             }
@@ -81,6 +73,7 @@ fun SettingsScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // --- Language Dropdown ---
         ExposedDropdownMenuBox(
             expanded = languageExpanded,
             onExpandedChange = { languageExpanded = !languageExpanded },
@@ -92,38 +85,87 @@ fun SettingsScreen(
                 readOnly = true,
                 label = { Text(stringResource(id = R.string.label_app_language)) },
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = languageExpanded) },
-                colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
-                modifier = Modifier
-                    .menuAnchor(MenuAnchorType.PrimaryNotEditable)
-                    .fillMaxWidth()
+                modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable).fillMaxWidth()
             )
-
-            ExposedDropdownMenu(
-                expanded = languageExpanded,
-                onDismissRequest = { languageExpanded = false }
-            ) {
+            ExposedDropdownMenu(expanded = languageExpanded, onDismissRequest = { languageExpanded = false }) {
                 AppLanguage.entries.forEach { languageOption ->
                     DropdownMenuItem(
                         text = { Text(stringResource(id = languageOption.labelResId)) },
-                        onClick = {
-                            viewModel.updateLanguage(languageOption)
-                            languageExpanded = false
-                        },
-                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                        onClick = { viewModel.updateLanguage(languageOption); languageExpanded = false }
                     )
                 }
             }
         }
 
-        Spacer(modifier = Modifier.height(48.dp))
+        Spacer(modifier = Modifier.height(32.dp))
+        HorizontalDivider()
+        Spacer(modifier = Modifier.height(16.dp))
 
+        R.string.label_display_options
+            Text(
+                text = stringResource(id = R.string.label_display_options),
+                style = MaterialTheme.typography.headlineSmall,
+                color = MaterialTheme.colorScheme.primary
+            )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        DisplaySwitch(
+            label = stringResource(R.string.text_apparent_temperature),
+            isOn = displaySettings.showApparentTemp,
+            onToggle = { viewModel.toggleDisplaySetting("show_apparent_temp", it) }
+        )
+        DisplaySwitch(
+            label = stringResource(R.string.text_wind),
+            isOn = displaySettings.showWind,
+            onToggle = { viewModel.toggleDisplaySetting("show_wind", it) }
+        )
+        DisplaySwitch(
+            label = stringResource(R.string.text_wind_gusts),
+            isOn = displaySettings.showWindGusts,
+            onToggle = { viewModel.toggleDisplaySetting("show_wind_gusts", it) }
+        )
+        DisplaySwitch(
+            label = stringResource(R.string.text_wind_direction),
+            isOn = displaySettings.showWindDirection,
+            onToggle = { viewModel.toggleDisplaySetting("show_wind_direction", it) }
+        )
+        DisplaySwitch(
+            label = stringResource(R.string.text_humidity),
+            isOn = displaySettings.showHumidity,
+            onToggle = { viewModel.toggleDisplaySetting("show_humidity", it) }
+        )
+        DisplaySwitch(
+            label = stringResource(R.string.text_cloud_cover),
+            isOn = displaySettings.showCloudCover,
+            onToggle = { viewModel.toggleDisplaySetting("show_cloud_cover", it) }
+        )
+        DisplaySwitch(
+            label = stringResource(R.string.text_precipitation),
+            isOn = displaySettings.showPrecipitation,
+            onToggle = { viewModel.toggleDisplaySetting("show_precipitation", it) }
+        )
+        DisplaySwitch(
+            label = stringResource(R.string.text_snowfall),
+            isOn = displaySettings.showSnowfall,
+            onToggle = { viewModel.toggleDisplaySetting("show_snowfall", it) }
+        )
+        DisplaySwitch(
+            label = stringResource(R.string.text_pressure_msl),
+            isOn = displaySettings.showPressureMsl,
+            onToggle = { viewModel.toggleDisplaySetting("show_pressure_msl", it) }
+        )
+        DisplaySwitch(
+            label = stringResource(R.string.text_surface_pressure),
+            isOn = displaySettings.showSurfacePressure,
+            onToggle = { viewModel.toggleDisplaySetting("show_surface_pressure", it) }
+        )
+
+        Spacer(modifier = Modifier.height(32.dp))
         HorizontalDivider(modifier = Modifier.padding(bottom = 24.dp))
 
         Button(
-            onClick = {
-                viewModel.deleteLocationAndReset()
-                onLocationDeleted()
-            },
+            onClick = { viewModel.deleteLocationAndReset(); onLocationDeleted() },
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.errorContainer,
                 contentColor = MaterialTheme.colorScheme.onErrorContainer
@@ -141,5 +183,24 @@ fun SettingsScreen(
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(top = 8.dp)
         )
+    }
+}
+
+@Composable
+fun DisplaySwitch(
+    label: String,
+    isOn: Boolean,
+    enabled: Boolean = true,
+    onToggle: (Boolean) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(text = label, style = MaterialTheme.typography.bodyLarge)
+        Switch(checked = isOn, onCheckedChange = onToggle, enabled = enabled)
     }
 }

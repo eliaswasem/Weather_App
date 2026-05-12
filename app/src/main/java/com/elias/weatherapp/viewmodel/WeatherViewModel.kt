@@ -14,6 +14,7 @@ import com.elias.weatherapp.data.model.AppLanguage
 import com.elias.weatherapp.data.model.AppTheme
 import com.elias.weatherapp.data.model.domain.LocationData
 import com.elias.weatherapp.data.model.domain.CurrentWeatherData
+import com.elias.weatherapp.data.model.domain.DisplaySettings
 import com.elias.weatherapp.data.toWeatherData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -160,7 +161,13 @@ class WeatherAppViewModel @Inject constructor(
         }
     }
 
+    fun toggleDisplaySetting(key: String, isEnabled: Boolean) {
+        viewModelScope.launch {
+            saveHandler.updateDisplaySetting(key, isEnabled)
+        }
+    }
 
-
+    val displaySettings = saveHandler.displaySettingsFlow
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), DisplaySettings())
 
 }

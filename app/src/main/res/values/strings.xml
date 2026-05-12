@@ -44,6 +44,7 @@
     <string name="wind_w">West</string>
     <string name="wind_nw">Northwest</string>
     <string name="unknown">Unknown</string>
+    <string name="label_display_options">Display Options</string>
 
 
 </resources>
