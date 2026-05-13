@@ -44,10 +44,17 @@ class MainActivity : AppCompatActivity() {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentRoute = navBackStackEntry?.destination?.route
 
+                val routesWithBottomBar = listOf(
+                    Routes.HOME,
+                    Routes.DAY,
+                    Routes.WEEK,
+                    Routes.SETTINGS
+                )
+
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = {
-                        if (currentRoute != Routes.WELCOME) {
+                        if (currentRoute in routesWithBottomBar) {
                             NavigationBar {
                                 NavigationBarItem(
                                     selected = currentRoute == Routes.HOME,

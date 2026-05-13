@@ -29,7 +29,8 @@ import com.elias.weatherapp.viewmodel.WeatherAppViewModel
 @Composable
 fun LocationInputScreen(
     viewModel: WeatherAppViewModel = hiltViewModel(),
-    onNavigateToHome: () -> Unit
+    onNavigateToHome: () -> Unit,
+    isWelcome: Boolean = false
 ) {
     var city by remember { mutableStateOf("") }
     var country by remember { mutableStateOf("") }
@@ -43,11 +44,19 @@ fun LocationInputScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(
-            text = stringResource(R.string.text_input_new_location),
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(bottom = 32.dp)
-        )
+        if (isWelcome) {
+            Text(
+                text = stringResource(R.string.text_welcome),
+                style = MaterialTheme.typography.headlineMedium,
+                modifier = Modifier.padding(bottom = 32.dp)
+            )
+        } else {
+            Text(
+                text = stringResource(R.string.text_input_new_location),
+                style = MaterialTheme.typography.headlineMedium,
+                modifier = Modifier.padding(bottom = 32.dp)
+            )
+        }
 
         TextField(
             value = city,

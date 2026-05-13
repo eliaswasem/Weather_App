@@ -20,7 +20,6 @@ import com.elias.weatherapp.ui.screens.DayWeatherScreen
 import com.elias.weatherapp.ui.screens.HomeScreen
 import com.elias.weatherapp.ui.screens.LocationInputScreen
 import com.elias.weatherapp.ui.screens.SettingsScreen
-import com.elias.weatherapp.ui.screens.WelcomeScreen
 import com.elias.weatherapp.viewmodel.WeatherAppViewModel
 
 object Routes {
@@ -57,12 +56,13 @@ fun WeatherNavGraph(
             modifier = modifier
         ) {
             composable(Routes.WELCOME) {
-                WelcomeScreen(
+                LocationInputScreen(
                     onNavigateToHome = {
                         navController.navigate(Routes.HOME) {
                             popUpTo(Routes.WELCOME) { inclusive = true }
                         }
-                    }
+                    },
+                    isWelcome = true
                 )
             }
 
