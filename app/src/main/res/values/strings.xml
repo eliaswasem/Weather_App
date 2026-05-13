@@ -52,6 +52,16 @@
     <string name="text_soil_temperature">Soil Temperature</string>
     <string name="text_soil_moisture">Soil Humidity</string>
     <string name="text_now">Now</string>
-
-
+    <string name="label_week">Week</string>
+    <string name="text_today">Today</string>
+    <string name="text_apparent_temperature_range">Feels Like Min/Max</string>
+    <string name="text_uv_index">Max. UV Index</string>
+    <string name="text_sunrise">Sunrise</string>
+    <string name="text_sunset">Sunset</string>
+    <string name="text_sunshine_duration">Sunshine Duration</string>
+    <string name="text_daylight_duration">Daylight Duration</string>
+    <string name="text_max_wind">Max. Wind Speed</string>
+    <string name="text_precipitation_hours">Precipitation Hours</string>
+    <string name="text_shortwave_radiation">Shortwave Radiation</string>
+    <string name="text_precipitation_sum">Precipitation Amount</string>
 </resources>

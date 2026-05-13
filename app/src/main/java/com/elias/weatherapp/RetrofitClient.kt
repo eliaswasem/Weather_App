@@ -2,6 +2,7 @@ package com.elias.weatherapp
 
 import androidx.appcompat.app.AppCompatDelegate
 import com.elias.weatherapp.data.apis.request.CurrentWeatherApi
+import com.elias.weatherapp.data.apis.request.DailyWeatherApi
 import com.elias.weatherapp.data.apis.request.HourlyWeatherApi
 import com.elias.weatherapp.data.apis.request.LocationApi
 import com.elias.weatherapp.data.model.domain.HourlyWeatherData
@@ -52,10 +53,12 @@ object RetrofitClient {
             .build()
             .create(HourlyWeatherApi::class.java)
     }
-}
 
-private fun getLanguageCode(): String {
-    return AppCompatDelegate.getApplicationLocales().get(0)?.language
-        ?: Locale.getDefault().language
+    val dailyWeatherApi: DailyWeatherApi by lazy {
+        Retrofit.Builder()
+            .baseUrl("https://api.open-meteo.com/v1/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(DailyWeatherApi::class.java)
+    }
 }
-

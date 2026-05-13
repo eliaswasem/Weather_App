@@ -11,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import com.elias.weatherapp.R
 import com.elias.weatherapp.RetrofitClient
 import com.elias.weatherapp.data.SettingsSaveHandler
+import com.elias.weatherapp.data.mapper.toDailyWeatherDataList
 import com.elias.weatherapp.data.mapper.toHourlyWeatherDataList
 import com.elias.weatherapp.data.model.AppLanguage
 import com.elias.weatherapp.data.model.AppTheme
@@ -18,6 +19,7 @@ import com.elias.weatherapp.data.model.domain.LocationData
 import com.elias.weatherapp.data.model.domain.CurrentWeatherData
 import com.elias.weatherapp.data.model.domain.DisplaySettings
 import com.elias.weatherapp.data.mapper.toWeatherData
+import com.elias.weatherapp.data.model.domain.DailyWeatherData
 import com.elias.weatherapp.data.model.domain.HourlyWeatherData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -46,6 +48,15 @@ class WeatherAppViewModel @Inject constructor(
         private set
 
     var hourlyErrorOccurred by mutableStateOf(false)
+        private set
+
+    private val _dailyWeather = MutableStateFlow<List<DailyWeatherData>>(emptyList())
+    val dailyWeather = _dailyWeather.asStateFlow()
+
+    var isDailyLoading by mutableStateOf(false)
+        private set
+
+    var dailyErrorOccurred by mutableStateOf(false)
         private set
 
     var errorMessageResId by mutableStateOf<Int?>(null)
@@ -128,6 +139,38 @@ class WeatherAppViewModel @Inject constructor(
         }
     }
 
+    fun loadDailyWeather(force: Boolean = false) {
+        viewModelScope.launch {
+
+            if (!force && _dailyWeather.value.isNotEmpty()) return@launch
+
+            isDailyLoading = true
+            dailyErrorOccurred = false
+
+            val coords = saveHandler.getSavedLocation()
+
+            if (coords == null) {
+                isDailyLoading = false
+                return@launch
+            }
+
+            try {
+                val response = RetrofitClient.dailyWeatherApi.getWeather(
+                    coords.latitude,
+                    coords.longitude
+                )
+
+                _dailyWeather.value = response.toDailyWeatherDataList()
+
+            } catch (e: Exception) {
+                dailyErrorOccurred = true
+                _dailyWeather.value = emptyList()
+            } finally {
+                isDailyLoading = false
+            }
+        }
+    }
+
     fun getAndSaveLocationFromCoords(city: String, country: String, onSuccess: () -> Unit) {
         if (city.isBlank()) {
             errorMessageResId = R.string.error_city_empty
@@ -176,8 +219,10 @@ class WeatherAppViewModel @Inject constructor(
 
             _weather.value = null
             _hourlyWeather.value = emptyList()
+            _dailyWeather.value = emptyList()
 
             hourlyErrorOccurred = false
+            dailyErrorOccurred = false
         }
     }
     val theme: StateFlow<AppTheme> = saveHandler.themeFlow

@@ -2,12 +2,32 @@ package com.elias.weatherapp.ui.screens
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -16,25 +36,24 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.elias.weatherapp.R
-import com.elias.weatherapp.data.model.domain.HourlyWeatherData
+import com.elias.weatherapp.data.model.domain.DailyWeatherData
 import com.elias.weatherapp.viewmodel.WeatherAppViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DayWeatherScreen(
+fun WeekWeatherScreen(
     viewModel: WeatherAppViewModel = hiltViewModel()
 ) {
-    val hourlyDataList by viewModel.hourlyWeather.collectAsStateWithLifecycle()
+    val dailyDataList by viewModel.dailyWeather.collectAsStateWithLifecycle()
     var expandedIndex by remember { mutableStateOf<Int?>(null) }
-
     var isManualRefreshing by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        viewModel.loadHourlyWeather()
+        viewModel.loadDailyWeather()
     }
 
-    LaunchedEffect(viewModel.isHourlyLoading) {
-        if (!viewModel.isHourlyLoading) {
+    LaunchedEffect(viewModel.isDailyLoading) {
+        if (!viewModel.isDailyLoading) {
             isManualRefreshing = false
         }
     }
@@ -43,7 +62,7 @@ fun DayWeatherScreen(
         isRefreshing = isManualRefreshing,
         onRefresh = {
             isManualRefreshing = true
-            viewModel.loadHourlyWeather(force = true)
+            viewModel.loadDailyWeather(force = true)
         },
         modifier = Modifier.fillMaxSize()
     ) {
@@ -54,20 +73,20 @@ fun DayWeatherScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = stringResource(R.string.label_day),
+                text = stringResource(R.string.label_week),
                 style = MaterialTheme.typography.headlineMedium,
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
             when {
-                viewModel.isHourlyLoading && !isManualRefreshing -> {
+                viewModel.isDailyLoading && !isManualRefreshing -> {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         CircularProgressIndicator()
                     }
                 }
 
-                viewModel.hourlyErrorOccurred -> {
+                viewModel.dailyErrorOccurred -> {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Text(
@@ -76,14 +95,14 @@ fun DayWeatherScreen(
                                 textAlign = TextAlign.Center
                             )
                             Spacer(modifier = Modifier.height(16.dp))
-                            Button(onClick = { viewModel.loadHourlyWeather() }) {
+                            Button(onClick = { viewModel.loadDailyWeather() }) {
                                 Text(stringResource(R.string.button_retry))
                             }
                         }
                     }
                 }
 
-                hourlyDataList.isEmpty() -> {
+                dailyDataList.isEmpty() -> {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         Text(
                             text = stringResource(R.string.error_no_weather_data),
@@ -97,17 +116,17 @@ fun DayWeatherScreen(
                         modifier = Modifier.fillMaxWidth(),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        itemsIndexed(hourlyDataList) { index, hourData ->
+                        itemsIndexed(dailyDataList) { index, dayData ->
                             val isExpanded = index == expandedIndex
 
                             val displayTime = if (index == 0) {
-                                stringResource(R.string.text_now)
+                                stringResource(R.string.text_today)
                             } else {
-                                hourData.time
+                                dayData.time
                             }
 
-                            ExpandableHourlyCard(
-                                data = hourData,
+                            ExpandableDailyCard(
+                                data = dayData,
                                 displayTime = displayTime,
                                 isExpanded = isExpanded,
                                 viewModel = viewModel,
@@ -124,8 +143,8 @@ fun DayWeatherScreen(
 }
 
 @Composable
-fun ExpandableHourlyCard(
-    data: HourlyWeatherData,
+fun ExpandableDailyCard(
+    data: DailyWeatherData,
     displayTime: String,
     isExpanded: Boolean,
     viewModel: WeatherAppViewModel,
@@ -155,20 +174,20 @@ fun ExpandableHourlyCard(
                 Text(
                     text = displayTime,
                     style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1.1f)
                 )
 
                 Text(
-                    text = "${data.temperature}°C",
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier.weight(1f),
+                    text = "${data.temperature2mMin}°C / ${data.temperature2mMax}°C",
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.weight(1.4f),
                     textAlign = TextAlign.Center
                 )
 
                 Text(
-                    text = "\uD83C\uDF27\uFE0F ${data.precipitationProbability}%",
+                    text = "\uD83C\uDF27\uFE0F ${data.precipitationProbabilityMax}%",
                     style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.weight(0.9f),
                     textAlign = TextAlign.End,
                     color = MaterialTheme.colorScheme.outline
                 )
@@ -183,26 +202,21 @@ fun ExpandableHourlyCard(
                 ) {
                     HorizontalDivider(modifier = Modifier.padding(bottom = 12.dp))
 
-                    WeatherItem(stringResource(R.string.text_apparent_temperature), "${data.apparentTemperature}°C")
-                    WeatherItem(stringResource(R.string.text_wind), "${data.windSpeed} km/h")
-                    WeatherItem(stringResource(R.string.text_wind_direction), stringResource(id = viewModel.getWindDirectionResId(data.windDirection)))
-                    WeatherItem(stringResource(R.string.text_wind_gusts), "${data.windGusts} km/h")
-                    WeatherItem(stringResource(R.string.text_cloud_cover), "${data.cloudCover}%")
-                    WeatherItem(stringResource(R.string.text_humidity), "${data.humidity}%")
+                    WeatherItem(stringResource(R.string.text_apparent_temperature_range), "${data.apparentTemperatureMin}°C / ${data.apparentTemperatureMax}°C")
+                    WeatherItem(stringResource(R.string.text_uv_index), "${data.uvIndexMax}")
+                    WeatherItem(stringResource(R.string.text_sunrise), data.sunrise)
+                    WeatherItem(stringResource(R.string.text_sunset), data.sunset)
+                    WeatherItem(stringResource(R.string.text_sunshine_duration), "${(data.sunshineDuration / 3600).toInt()} h")
+                    WeatherItem(stringResource(R.string.text_daylight_duration), "${(data.daylightDuration / 3600).toInt()} h")
+                    WeatherItem(stringResource(R.string.text_max_wind), "${data.windSpeed10mMax} km/h")
+                    WeatherItem(stringResource(R.string.text_wind_direction), stringResource(id = viewModel.getWindDirectionResId(data.windDirection10mDominant)))
+                    WeatherItem(stringResource(R.string.text_wind_gusts), "${data.windGusts10mMax} km/h")
+                    WeatherItem(stringResource(R.string.text_precipitation_hours), "${data.precipitationHours} h")
+                    WeatherItem(stringResource(R.string.text_shortwave_radiation), "${data.shortwaveRadiationSum} MJ/m²")
 
-                    if (data.precipitation > 0.0) {
-                        WeatherItem(stringResource(R.string.text_precipitation), "${data.precipitation} mm")
+                    if (data.precipitationSum > 0.0) {
+                        WeatherItem(stringResource(R.string.text_precipitation_sum), "${data.precipitationSum} mm")
                     }
-                    if (data.snowfall > 0.0) {
-                        WeatherItem(stringResource(R.string.text_snowfall), "${data.snowfall} cm")
-                        WeatherItem(stringResource(R.string.text_snow_depth), "${data.snowDepth} m")
-                    }
-
-                    WeatherItem(stringResource(R.string.text_visibility), "${data.visibility} km")
-                    WeatherItem(stringResource(R.string.text_pressure_msl), "${data.pressureMsl} hPa")
-                    WeatherItem(stringResource(R.string.text_surface_pressure), "${data.surfacePressure} hPa")
-                    WeatherItem(stringResource(R.string.text_soil_temperature), "${data.soilTemperature}°C")
-                    WeatherItem(stringResource(R.string.text_soil_moisture), "${data.soilMoisture} m³/m³")
                 }
             }
         }

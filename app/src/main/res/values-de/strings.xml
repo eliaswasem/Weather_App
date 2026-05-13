@@ -52,5 +52,16 @@
     <string name="text_soil_temperature">Bodentemperatur</string>
     <string name="text_soil_moisture">Bodenfeuchtigkeit</string>
     <string name="text_now">Jetzt</string>
-
+    <string name="label_week">Woche</string>
+    <string name="text_today">Heute</string>
+    <string name="text_apparent_temperature_range">Gefühlt Min/Max</string>
+    <string name="text_uv_index">Max. UV-Index</string>
+    <string name="text_sunrise">Sonnenaufgang</string>
+    <string name="text_sunset">Sonnenuntergang</string>
+    <string name="text_sunshine_duration">Sonnenscheindauer</string>
+    <string name="text_daylight_duration">Tageslichtdauer</string>
+    <string name="text_max_wind">Max. Windgeschwindigkeit</string>
+    <string name="text_precipitation_hours">Niederschlagsstunden</string>
+    <string name="text_shortwave_radiation">Kurzwellenstrahlung</string>
+    <string name="text_precipitation_sum">Niederschlagsmenge</string>
 </resources>

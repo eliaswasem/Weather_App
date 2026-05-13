@@ -62,16 +62,29 @@ class MainActivity : AppCompatActivity() {
                                     label = { Text(stringResource(R.string.label_settings)) }
                                 )
                                 NavigationBarItem(
-                                    selected = currentRoute == Routes.TODAY,
+                                    selected = currentRoute == Routes.WEEK,
                                     onClick = {
-                                        if (currentRoute != Routes.TODAY) {
-                                            navController.navigate(Routes.TODAY) {
+                                        if (currentRoute != Routes.WEEK) {
+                                            navController.navigate(Routes.WEEK) {
                                                 launchSingleTop = true
                                                 restoreState = true
                                             }
                                         }
                                     },
-                                    icon = { Icon(Icons.Default.Cloud, contentDescription = "Today")},
+                                    icon = { Icon(Icons.Default.Cloud, contentDescription = "Week")},
+                                    label = { Text(stringResource(R.string.label_week))}
+                                )
+                                NavigationBarItem(
+                                    selected = currentRoute == Routes.DAY,
+                                    onClick = {
+                                        if (currentRoute != Routes.DAY) {
+                                            navController.navigate(Routes.DAY) {
+                                                launchSingleTop = true
+                                                restoreState = true
+                                            }
+                                        }
+                                    },
+                                    icon = { Icon(Icons.Default.Cloud, contentDescription = "Day")},
                                     label = { Text(stringResource(R.string.label_day))}
                                 )
                                 NavigationBarItem(
