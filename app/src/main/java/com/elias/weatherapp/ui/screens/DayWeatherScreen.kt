@@ -166,7 +166,7 @@ fun ExpandableHourlyCard(
                 )
 
                 Text(
-                    text = "\uD83C\uDF27\uFE0F ${data.humidity}%",
+                    text = "\uD83C\uDF27\uFE0F ${data.precipitationProbability}%",
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.weight(1f),
                     textAlign = TextAlign.End,
@@ -187,7 +187,7 @@ fun ExpandableHourlyCard(
                     WeatherItem(stringResource(R.string.text_wind), "${data.windSpeed} km/h")
                     WeatherItem(stringResource(R.string.text_wind_direction), stringResource(id = viewModel.getWindDirectionResId(data.windDirection)))
                     WeatherItem(stringResource(R.string.text_cloud_cover), "${data.cloudCover}%")
-                    WeatherItem(stringResource(R.string.text_precipitation_probability), "${data.precipitationProbability}%")
+                    WeatherItem(stringResource(R.string.text_humidity), "${data.humidity}%")
 
                     if (data.precipitation > 0.0) {
                         WeatherItem(stringResource(R.string.text_precipitation), "${data.precipitation} mm")
