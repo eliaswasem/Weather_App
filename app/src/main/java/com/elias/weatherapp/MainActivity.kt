@@ -50,44 +50,6 @@ class MainActivity : AppCompatActivity() {
                         if (currentRoute != Routes.WELCOME) {
                             NavigationBar {
                                 NavigationBarItem(
-                                    selected = currentRoute == Routes.SETTINGS,
-                                    onClick = {
-                                        if (currentRoute != Routes.SETTINGS) {
-                                            navController.navigate(Routes.SETTINGS) {
-                                                launchSingleTop = true
-                                            }
-                                        }
-                                    },
-                                    icon = { Icon(Icons.Default.Settings, contentDescription = "Settings") },
-                                    label = { Text(stringResource(R.string.label_settings)) }
-                                )
-                                NavigationBarItem(
-                                    selected = currentRoute == Routes.WEEK,
-                                    onClick = {
-                                        if (currentRoute != Routes.WEEK) {
-                                            navController.navigate(Routes.WEEK) {
-                                                launchSingleTop = true
-                                                restoreState = true
-                                            }
-                                        }
-                                    },
-                                    icon = { Icon(Icons.Default.Cloud, contentDescription = "Week")},
-                                    label = { Text(stringResource(R.string.label_week))}
-                                )
-                                NavigationBarItem(
-                                    selected = currentRoute == Routes.DAY,
-                                    onClick = {
-                                        if (currentRoute != Routes.DAY) {
-                                            navController.navigate(Routes.DAY) {
-                                                launchSingleTop = true
-                                                restoreState = true
-                                            }
-                                        }
-                                    },
-                                    icon = { Icon(Icons.Default.Cloud, contentDescription = "Day")},
-                                    label = { Text(stringResource(R.string.label_day))}
-                                )
-                                NavigationBarItem(
                                     selected = currentRoute == Routes.HOME,
                                     onClick = {
                                         if (currentRoute != Routes.HOME) {
@@ -103,6 +65,44 @@ class MainActivity : AppCompatActivity() {
                                     },
                                     icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
                                     label = { Text(stringResource(R.string.label_home)) }
+                                )
+                                NavigationBarItem(
+                                    selected = currentRoute == Routes.DAY,
+                                    onClick = {
+                                        if (currentRoute != Routes.DAY) {
+                                            navController.navigate(Routes.DAY) {
+                                                launchSingleTop = true
+                                                restoreState = true
+                                            }
+                                        }
+                                    },
+                                    icon = { Icon(Icons.Default.Cloud, contentDescription = "Day")},
+                                    label = { Text(stringResource(R.string.label_day))}
+                                )
+                                NavigationBarItem(
+                                    selected = currentRoute == Routes.WEEK,
+                                    onClick = {
+                                        if (currentRoute != Routes.WEEK) {
+                                            navController.navigate(Routes.WEEK) {
+                                                launchSingleTop = true
+                                                restoreState = true
+                                            }
+                                        }
+                                    },
+                                    icon = { Icon(Icons.Default.Cloud, contentDescription = "Week")},
+                                    label = { Text(stringResource(R.string.label_week))}
+                                )
+                                NavigationBarItem(
+                                    selected = currentRoute == Routes.SETTINGS,
+                                    onClick = {
+                                        if (currentRoute != Routes.SETTINGS) {
+                                            navController.navigate(Routes.SETTINGS) {
+                                                launchSingleTop = true
+                                            }
+                                        }
+                                    },
+                                    icon = { Icon(Icons.Default.Settings, contentDescription = "Settings") },
+                                    label = { Text(stringResource(R.string.label_settings)) }
                                 )
                             }
                         }

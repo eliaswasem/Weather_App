@@ -17,7 +17,7 @@ fun HourlyWeatherApiResponse.toHourlyWeatherDataList(): List<HourlyWeatherData> 
 
     val startIndex = times.indexOfFirst { apiTimeStr ->
         try {
-            val apiDateTime = LocalDateTime.parse(apiTimeStr, DateTimeFormatter.ISO_LOCAL_DATE)
+            val apiDateTime = LocalDateTime.parse(apiTimeStr, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
             !apiDateTime.isBefore(currentDateTime)
         } catch (_: Exception) {
             false
