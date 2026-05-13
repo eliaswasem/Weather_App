@@ -186,6 +186,7 @@ fun ExpandableHourlyCard(
                     WeatherItem(stringResource(R.string.text_apparent_temperature), "${data.apparentTemperature}°C")
                     WeatherItem(stringResource(R.string.text_wind), "${data.windSpeed} km/h")
                     WeatherItem(stringResource(R.string.text_wind_direction), stringResource(id = viewModel.getWindDirectionResId(data.windDirection)))
+                    WeatherItem(stringResource(R.string.text_wind_gusts), "${data.windGusts} km/h")
                     WeatherItem(stringResource(R.string.text_cloud_cover), "${data.cloudCover}%")
                     WeatherItem(stringResource(R.string.text_humidity), "${data.humidity}%")
 
