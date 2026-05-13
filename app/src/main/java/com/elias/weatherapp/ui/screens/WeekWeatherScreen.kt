@@ -204,15 +204,15 @@ fun ExpandableDailyCard(
 
                     WeatherItem(stringResource(R.string.text_apparent_temperature_range), "${data.apparentTemperatureMin}°C / ${data.apparentTemperatureMax}°C")
                     WeatherItem(stringResource(R.string.text_uv_index), "${data.uvIndexMax}")
-                    WeatherItem(stringResource(R.string.text_sunrise), data.sunrise)
-                    WeatherItem(stringResource(R.string.text_sunset), data.sunset)
-                    WeatherItem(stringResource(R.string.text_sunshine_duration), "${(data.sunshineDuration / 3600).toInt()} h")
-                    WeatherItem(stringResource(R.string.text_daylight_duration), "${(data.daylightDuration / 3600).toInt()} h")
                     WeatherItem(stringResource(R.string.text_max_wind), "${data.windSpeed10mMax} km/h")
                     WeatherItem(stringResource(R.string.text_wind_direction), stringResource(id = viewModel.getWindDirectionResId(data.windDirection10mDominant)))
                     WeatherItem(stringResource(R.string.text_wind_gusts), "${data.windGusts10mMax} km/h")
                     WeatherItem(stringResource(R.string.text_precipitation_hours), "${data.precipitationHours} h")
                     WeatherItem(stringResource(R.string.text_shortwave_radiation), "${data.shortwaveRadiationSum} MJ/m²")
+                    WeatherItem(stringResource(R.string.text_sunrise), data.sunrise)
+                    WeatherItem(stringResource(R.string.text_sunset), data.sunset)
+                    WeatherItem(stringResource(R.string.text_sunshine_duration), "${(data.sunshineDuration / 3600).toInt()} h")
+                    WeatherItem(stringResource(R.string.text_daylight_duration), "${(data.daylightDuration / 3600).toInt()} h")
 
                     if (data.precipitationSum > 0.0) {
                         WeatherItem(stringResource(R.string.text_precipitation_sum), "${data.precipitationSum} mm")
