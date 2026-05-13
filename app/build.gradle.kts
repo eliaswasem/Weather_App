@@ -15,10 +15,10 @@ android {
 
     defaultConfig {
         applicationId = "com.elias.weatherapp"
-        minSdk = 31
+        minSdk = 29
         targetSdk = 37
         versionCode = 1
-        versionName = "1.7.3"
+        versionName = "1.7.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

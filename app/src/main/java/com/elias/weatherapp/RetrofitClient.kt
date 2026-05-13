@@ -18,7 +18,7 @@ object RetrofitClient {
             val request = chain.request().newBuilder()
                 .header(
                     "User-Agent",
-                    "EliasWeatherApp/${BuildConfig.VERSION_NAME}(ewasem@@outlook.de)"
+                    "EliasWeatherApp/${BuildConfig.VERSION_NAME}(ewasem@outlook.de)"
                 )
                 .header(
                     "Accept-Language",
