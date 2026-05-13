@@ -164,7 +164,7 @@ fun ExpandableDailyCard(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(27.dp)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
