@@ -7,7 +7,6 @@
     <string name="text_unknown_location">Unknown location</string>
     <string name="error_no_weather_data">No weather data available.</string>
     <string name="text_appearance">Appearance</string>
-    <string name="button_delete_saved_location">Delete saved location</string>
     <string name="error_failed_load_weather">Failed to load weather</string>
     <string name="error_city_empty">City can\'t be empty.</string>
     <string name="error_country_empty">Country can\'t be empty.</string>
@@ -21,7 +20,6 @@
     <string name="theme_light">Light</string>
     <string name="theme_system">System</string>
     <string name="theme_dark">Dark</string>
-    <string name="text_reset">This will reset the app to the start Screen.</string>
     <string name="lang_english">English</string>
     <string name="lang_german">German</string>
     <string name="label_app_theme">App Theme</string>
@@ -64,4 +62,9 @@
     <string name="text_precipitation_hours">Precipitation Hours</string>
     <string name="text_shortwave_radiation">Shortwave Radiation</string>
     <string name="text_precipitation_sum">Precipitation Amount</string>
+    <string name="text_developer">Developer</string>
+    <string name="label_app_info">App Info</string>
+    <string name="text_app_version" translatable="false">App Version</string>
+    <string name="button_change_location">Change Location</string>
+    <string name="text_input_new_location">Please input a new Location</string>
 </resources>

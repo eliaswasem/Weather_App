@@ -7,7 +7,6 @@
     <string name="text_unknown_location">Unbekannter Ort</string>
     <string name="error_no_weather_data">Keine Wetterdaten verfügbar.</string>
     <string name="text_appearance">Darstellung</string>
-    <string name="button_delete_saved_location">Gespeicherten Ort löschen</string>
     <string name="error_failed_load_weather">Wetter konnte nicht geladen werden</string>
     <string name="error_city_empty">Stadt darf nicht leer sein.</string>
     <string name="error_country_empty">Land darf nicht leer sein.</string>
@@ -21,7 +20,6 @@
     <string name="theme_light">Hell</string>
     <string name="theme_system">System</string>
     <string name="theme_dark">Dunkel</string>
-    <string name="text_reset">Dadurch wird die App auf den Startbildschirm zurückgesetzt.</string>
     <string name="lang_english">Englisch</string>
     <string name="lang_german">Deutsch</string>
     <string name="label_app_theme">App-Design</string>
@@ -64,4 +62,8 @@
     <string name="text_precipitation_hours">Niederschlagsstunden</string>
     <string name="text_shortwave_radiation">Kurzwellenstrahlung</string>
     <string name="text_precipitation_sum">Niederschlagsmenge</string>
+    <string name="text_developer">Entwickler</string>
+    <string name="label_app_info">App Informationen</string>
+    <string name="button_change_location">Wechsle Ort</string>
+    <string name="text_input_new_location">Bitte gebe einen neuen Ort ein</string>
 </resources>

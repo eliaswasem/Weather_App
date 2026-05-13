@@ -18,6 +18,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.elias.weatherapp.ui.screens.DayWeatherScreen
 import com.elias.weatherapp.ui.screens.HomeScreen
+import com.elias.weatherapp.ui.screens.LocationInputScreen
 import com.elias.weatherapp.ui.screens.SettingsScreen
 import com.elias.weatherapp.ui.screens.WelcomeScreen
 import com.elias.weatherapp.viewmodel.WeatherAppViewModel
@@ -28,6 +29,7 @@ object Routes {
     const val SETTINGS = "settings"
     const val DAY = "day"
     const val WEEK = "week"
+    const val LOCATION_INPUT = "location_input"
 }
 
 @Composable
@@ -65,16 +67,17 @@ fun WeatherNavGraph(
             }
 
             composable(Routes.HOME) {
-                HomeScreen()
+                HomeScreen(
+                    onLocationChange = {
+                        navController.navigate(Routes.LOCATION_INPUT) {
+                            popUpTo(0) { inclusive = true}
+                        }
+                    }
+                )
             }
 
             composable(Routes.SETTINGS) {
                 SettingsScreen(
-                    onLocationDeleted = {
-                        navController.navigate(Routes.WELCOME) {
-                            popUpTo(0) { inclusive = true}
-                        }
-                    }
                 )
             }
 
@@ -84,6 +87,16 @@ fun WeatherNavGraph(
 
             composable(Routes.WEEK) {
                 WeekWeatherScreen()
+            }
+
+            composable(Routes.LOCATION_INPUT) {
+                LocationInputScreen(
+                    onNavigateToHome = {
+                        navController.navigate(Routes.HOME) {
+                            popUpTo(Routes.WELCOME) { inclusive = true }
+                        }
+                    }
+                )
             }
         }
     }

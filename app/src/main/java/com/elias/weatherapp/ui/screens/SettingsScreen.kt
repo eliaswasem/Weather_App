@@ -13,6 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.elias.weatherapp.BuildConfig
 import com.elias.weatherapp.R
 import com.elias.weatherapp.data.model.AppTheme
 import com.elias.weatherapp.data.model.AppLanguage
@@ -21,8 +22,7 @@ import com.elias.weatherapp.viewmodel.WeatherAppViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
-    viewModel: WeatherAppViewModel = hiltViewModel(),
-    onLocationDeleted: () -> Unit = {}
+    viewModel: WeatherAppViewModel = hiltViewModel()
 ) {
     val currentTheme by viewModel.theme.collectAsState()
     val currentLanguage by viewModel.language.collectAsState()
@@ -101,12 +101,11 @@ fun SettingsScreen(
         HorizontalDivider()
         Spacer(modifier = Modifier.height(16.dp))
 
-        R.string.label_display_options
-            Text(
-                text = stringResource(R.string.label_display_options),
-                style = MaterialTheme.typography.headlineSmall,
-                color = MaterialTheme.colorScheme.primary
-            )
+        Text(
+            text = stringResource(R.string.label_display_options),
+            style = MaterialTheme.typography.headlineSmall,
+            color = MaterialTheme.colorScheme.primary
+        )
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -164,22 +163,20 @@ fun SettingsScreen(
         Spacer(modifier = Modifier.height(32.dp))
         HorizontalDivider(modifier = Modifier.padding(bottom = 24.dp))
 
-        Button(
-            onClick = { viewModel.deleteLocationAndReset(); onLocationDeleted() },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.errorContainer,
-                contentColor = MaterialTheme.colorScheme.onErrorContainer
-            ),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Icon(Icons.Default.Delete, contentDescription = null)
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(text = stringResource(R.string.button_delete_saved_location))
-        }
-
         Text(
-            text = stringResource(R.string.text_reset),
-            style = MaterialTheme.typography.bodySmall,
+            text = stringResource(R.string.label_app_info),
+            style = MaterialTheme.typography.headlineSmall,
+            color = MaterialTheme.colorScheme.primary
+        )
+        Text(
+            text = "${stringResource(R.string.text_app_version)}: ${BuildConfig.VERSION_NAME}",
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(top = 8.dp)
+        )
+        Text(
+            text = "${stringResource(R.string.text_developer)}: Elias Wasem",
+            style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(top = 8.dp)
         )

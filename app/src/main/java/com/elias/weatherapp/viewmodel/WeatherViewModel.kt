@@ -213,7 +213,7 @@ class WeatherAppViewModel @Inject constructor(
         return saveHandler.getSavedLocation()
     }
 
-    fun deleteLocationAndReset() {
+    fun changeLocation() {
         viewModelScope.launch {
             saveHandler.clearLocation()
 

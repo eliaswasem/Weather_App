@@ -3,6 +3,9 @@ package com.elias.weatherapp.ui.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ChangeCircle
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.*
@@ -20,7 +23,8 @@ import kotlinx.coroutines.delay
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    viewModel: WeatherAppViewModel = hiltViewModel()
+    viewModel: WeatherAppViewModel = hiltViewModel(),
+    onLocationChange: () -> Unit = {}
 ) {
     val weatherData by viewModel.weather.collectAsStateWithLifecycle()
     var isManualRefreshing by remember { mutableStateOf(false) }
@@ -149,14 +153,25 @@ fun HomeScreen(
                             }
                         }
                     }
-                }
-
-                else -> {
+                    Button(
+                        onClick = { viewModel.changeLocation(); onLocationChange() },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                        ),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Icon(Icons.Default.ChangeCircle, contentDescription = null)
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(text = stringResource(R.string.button_change_location))
+                    }
+                } else -> {
                     Text(
                         text = stringResource(R.string.error_no_weather_data),
                         modifier = Modifier.padding(top = 100.dp)
                     )
                 }
+
             }
         }
     }
