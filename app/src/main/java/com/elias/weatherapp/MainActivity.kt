@@ -1,7 +1,6 @@
 package com.elias.weatherapp
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -73,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                                         }
                                     },
                                     icon = { Icon(Icons.Default.Cloud, contentDescription = "Today")},
-                                    label = { Text(stringResource(R.string.label_today))}
+                                    label = { Text(stringResource(R.string.label_day))}
                                 )
                                 NavigationBarItem(
                                     selected = currentRoute == Routes.HOME,

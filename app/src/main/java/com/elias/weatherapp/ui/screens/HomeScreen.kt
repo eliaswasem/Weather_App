@@ -81,7 +81,7 @@ fun HomeScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(16.dp),
-                            horizontalAlignment = Alignment.Start
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
                                 text = viewModel.cityName ?: stringResource(R.string.text_unknown_location),
