@@ -165,13 +165,20 @@ fun ExpandableHourlyCard(
                     textAlign = TextAlign.Center
                 )
 
+                val weatherEmoji = when {
+                    data.precipitationProbability >= 60 -> "\uD83C\uDF27\uFE0F"
+                    data.precipitationProbability >= 40 -> "\uD83C\uDF26\uFE0F"
+                    else -> "\u2600\uFE0F"
+                }
+
                 Text(
-                    text = "\uD83C\uDF27\uFE0F ${data.precipitationProbability}%",
+                    text = "$weatherEmoji ${data.precipitationProbability}%",
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.weight(1f),
                     textAlign = TextAlign.End,
                     color = MaterialTheme.colorScheme.outline
                 )
+
             }
 
             AnimatedVisibility(visible = isExpanded) {

@@ -184,10 +184,16 @@ fun ExpandableDailyCard(
                     textAlign = TextAlign.Center
                 )
 
+                val weatherEmoji = when {
+                    data.precipitationProbabilityMax >= 60 -> "\uD83C\uDF27\uFE0F"
+                    data.precipitationProbabilityMax >= 40 -> "\uD83C\uDF26\uFE0F"
+                    else -> "\u2600\uFE0F"
+                }
+
                 Text(
-                    text = "\uD83C\uDF27\uFE0F ${data.precipitationProbabilityMax}%",
+                    text = "$weatherEmoji ${data.precipitationProbabilityMax}%",
                     style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.weight(0.9f),
+                    modifier = Modifier.weight(1f),
                     textAlign = TextAlign.End,
                     color = MaterialTheme.colorScheme.outline
                 )

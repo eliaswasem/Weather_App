@@ -114,10 +114,16 @@ fun HomeScreen(
                                     WeatherItem(stringResource(R.string.text_apparent_temperature), "${data.apparentTemperature}°C")
                                 }
                                 if (displaySettings.showWind) {
-                                    WeatherItem(stringResource(R.string.text_wind), "${data.windSpeed} km/h")
+                                    WeatherItem(
+                                        stringResource(R.string.text_wind),
+                                        "${data.windSpeed} km/h"
+                                    )
                                 }
                                 if (displaySettings.showWindGusts && data.windGusts > 0.0) {
-                                    WeatherItem(stringResource(R.string.text_wind_gusts), "${data.windGusts} km/h")
+                                    WeatherItem(
+                                        stringResource(R.string.text_wind_gusts),
+                                        "${data.windGusts} km/h"
+                                    )
                                 }
                                 if (displaySettings.showWindDirection) {
                                     WeatherItem(
@@ -126,17 +132,28 @@ fun HomeScreen(
                                     )
                                 }
                                 if (displaySettings.showHumidity) {
-                                    WeatherItem(stringResource(R.string.text_humidity), "${data.humidity}%")
+                                    WeatherItem(
+                                        stringResource(R.string.text_humidity),
+                                        "${data.humidity}%"
+                                    )
                                 }
-
                                 if (displaySettings.showCloudCover) {
-                                    WeatherItem(stringResource(R.string.text_cloud_cover), "${data.cloudCover}%")
+                                    WeatherItem(
+                                        stringResource(R.string.text_cloud_cover),
+                                        "${data.cloudCover}%"
+                                    )
                                 }
                                 if (displaySettings.showPrecipitation && data.precipitation > 0.0) {
-                                    WeatherItem(stringResource(R.string.text_precipitation), "${data.precipitation} mm")
+                                    WeatherItem(
+                                        stringResource(R.string.text_precipitation),
+                                        "${data.precipitation} mm"
+                                    )
                                 }
                                 if (displaySettings.showSnowfall && data.snowfall > 0.0) {
-                                    WeatherItem(stringResource(R.string.text_snowfall), "${data.snowfall} cm")
+                                    WeatherItem(
+                                        stringResource(R.string.text_snowfall),
+                                        "${data.snowfall} cm"
+                                    )
                                 }
                                 if (displaySettings.showPressureMsl) {
                                     WeatherItem(
