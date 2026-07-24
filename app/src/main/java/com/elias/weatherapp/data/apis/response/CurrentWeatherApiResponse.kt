@@ -3,7 +3,7 @@ package com.elias.weatherapp.data.apis.response
 import com.google.gson.annotations.SerializedName
 
 data class CurrentWeatherApiResponse(
-    val current: CurrentWeatherDto
+    val current: CurrentWeatherDto?
 )
 
 data class CurrentWeatherDto(

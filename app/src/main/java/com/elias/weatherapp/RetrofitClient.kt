@@ -1,15 +1,12 @@
 package com.elias.weatherapp
 
-import androidx.appcompat.app.AppCompatDelegate
 import com.elias.weatherapp.data.apis.request.CurrentWeatherApi
 import com.elias.weatherapp.data.apis.request.DailyWeatherApi
 import com.elias.weatherapp.data.apis.request.HourlyWeatherApi
 import com.elias.weatherapp.data.apis.request.LocationApi
-import com.elias.weatherapp.data.model.domain.HourlyWeatherData
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.Locale
 
 object RetrofitClient {
     private val nominatimHttpClient = OkHttpClient.Builder()

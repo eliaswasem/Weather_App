@@ -1,6 +1,5 @@
 package com.elias.weatherapp.data.mapper
 
-import com.elias.weatherapp.data.apis.request.DailyWeatherApi
 import com.elias.weatherapp.data.apis.response.DailyWeatherApiResponse
 import com.elias.weatherapp.data.model.domain.DailyWeatherData
 import com.elias.weatherapp.getLanguageCode
@@ -48,7 +47,7 @@ fun DailyWeatherApiResponse.toDailyWeatherDataList(): List<DailyWeatherData> {
             uvIndexMax = dto.uvIndexMax?.getOrNull(index) ?: return@mapNotNull null,
             sunshineDuration = dto.sunshineDuration?.getOrNull(index) ?: 0.0,
             daylightDuration = dto.daylightDuration?.getOrNull(index) ?: 0.0,
-            sunrise = dto.sunrise?.getOrNull(index)?.substringAfter("T") ?: "--:--",
+            sunrise = dto.sunrise.getOrNull(index)?.substringAfter("T") ?: "--:--",
             precipitationSum = dto.precipitationSum?.getOrNull(index) ?: 0.0,
             precipitationProbabilityMax = dto.precipitationProbabilityMax?.getOrNull(index) ?: 0,
             precipitationHours = dto.precipitationHours?.getOrNull(index) ?: 0.0,

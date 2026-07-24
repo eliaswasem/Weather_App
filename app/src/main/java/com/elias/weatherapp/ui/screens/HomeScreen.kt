@@ -5,7 +5,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChangeCircle
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.*
@@ -19,6 +18,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.elias.weatherapp.R
 import com.elias.weatherapp.viewmodel.WeatherAppViewModel
 import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.milliseconds
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -28,13 +28,13 @@ fun HomeScreen(
 ) {
     val weatherData by viewModel.weather.collectAsStateWithLifecycle()
     var isManualRefreshing by remember { mutableStateOf(false) }
-    val displaySettings by viewModel.displaySettings.collectAsState()
+    val displaySettings by viewModel.displaySettings.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         viewModel.loadCurrentWeather(isBackgroundUpdate = false)
 
         while (true) {
-            delay(15 * 60 * 1000)
+            delay((15 * 60 * 1000).milliseconds)
             viewModel.loadCurrentWeather(isBackgroundUpdate = true)
         }
     }
@@ -94,8 +94,6 @@ fun HomeScreen(
                             )
 
                             Spacer(modifier = Modifier.height(16.dp))
-
-                            val displaySettings by viewModel.displaySettings.collectAsStateWithLifecycle()
 
                             Column(
                                 modifier = Modifier.fillMaxWidth(),

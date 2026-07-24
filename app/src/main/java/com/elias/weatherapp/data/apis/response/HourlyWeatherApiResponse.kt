@@ -3,7 +3,7 @@ package com.elias.weatherapp.data.apis.response
 import com.google.gson.annotations.SerializedName
 
 data class HourlyWeatherApiResponse(
-    val hourly: HourlyWeatherDto
+    val hourly: HourlyWeatherDto?
 )
 
 data class HourlyWeatherDto(
